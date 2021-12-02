@@ -16,7 +16,7 @@ class Graph:
         
         self._vert_id[label] = self.n_vert
 
-        self._adj_l+=[]
+        self._adj_l+=[[]]
         self.n_vert+=1
 
         return label
@@ -25,6 +25,10 @@ class Graph:
     def has_vertex(self,u):
         return u in self._vert_id.keys()
     
+    #Retorna os labels de todos os vértices do grafo
+    def get_vertices(self):
+        return list(self._vert_id.keys())
+
     #Cria uma aresta u→v no grafo (ou em ambas dieções se não direcionado) e de peso weight. O peso por padrão é 1
     def create_edge(self,u,v,weight = 1):
         if not self.has_vertex(u):
