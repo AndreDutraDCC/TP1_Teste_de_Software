@@ -16,6 +16,9 @@ class Graph:
         self._p       = dict()
         self._pSize   = dict()
         
+        # Auxiliar para os algoritmos de ciclo
+        self._color   = dict()
+        
     #Cria um vértice no grafo de nome igual a label. Se nenhuma for fornecida, o label é o sucessor do maior int entre os labels do grafo, ou 0 se for o primeiro int
     def create_vertex(self,label = ""):
         if label == "":
@@ -322,3 +325,44 @@ class Graph:
         self._pSize = dict()
         
         return mst
+    
+    # DFS que atualiza a cor dos vértices para encontrar um ciclo
+    # 0 = Não Visitado, 1 = Visitando, 2 = Visitado
+    # Parametros: Vértice a Executar, Pai do Vértice a executar
+    def _dfs_color(self, v, p):
+        
+        # Checamos se já visitamos esse vértice completamente antes
+        if(self._color[v] == 2):
+            return False
+        
+        # Se checamos em um vértice no estado de "Visitando", encontramos um ciclo
+        if(self._color[v] == 1):
+            return True
+        
+        # Marcamos o vértice como "Visitando"
+        self._color[v] = 1
+        idx_v = self._vert_id[v]
+        
+        # Visitamos todos os vizinhos, com exceção do pai (Para evitar loop)
+        for u in self._adj_l[idx_v]:
+            if u != p:
+                if self._dfs_color(u, v):
+                    return True
+            
+        self._color[v] = 2
+        return False
+    
+    # Identifica se existe algum ciclo no grafo
+    def has_cycle(self):
+        
+        # Inicializando as cores
+        for v in self.get_vertices():
+            self._color[v] = 0
+            
+        for v in self.get_vertices():
+            if(self._color[v] != 2):
+                if(self._dfs_color(v, -1)):
+                    return True
+        
+        # Não encontramos ciclo
+        return False
