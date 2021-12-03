@@ -196,6 +196,7 @@ class Graph:
         return ret
     
     # Retorna um dicionário com a menor distância de ini até os outros vértices
+    # Algoritmo de Dijkstra - Complexidade O(E log(V))
     def dijkstra(self, ini):
         if not self.has_vertex(ini):
             raise Exception("O vértice "+str(ini)+" não está registrado no grafo")
@@ -208,6 +209,7 @@ class Graph:
         for k in self.get_vertices():
             distance[k] = float("inf")
         
+        # Mantemos uma fila de prioridade, assim, o candidato com menor distância é analisado primeiro
         q = queue.PriorityQueue()
         q.put([0, ini])
         distance[ini] = 0
@@ -215,6 +217,7 @@ class Graph:
         while not q.empty():
             dist, v  = q.get()
             
+            # Distancias maiores podem ser inseridas na priority_queue, pulamos essas
             if dist > distance[v]:
                 continue
                 
@@ -222,6 +225,7 @@ class Graph:
             for u in self._adj_l[idx_v]:
                 idx_u = self._vert_id[u]
                 w     = self.get_weight(v, u)
+                # Checamos se compensa adicionar essa distância
                 if distance[u] > distance[v] + w:
                     distance[u] = distance[v] + w
                     q.put([distance[u], u])        
@@ -271,6 +275,31 @@ class Graph:
     # Retorna outro objeto do tipo Graph. A Minimum Spanning Tree do Grafo atual.
     # Atenção: Em casos de grafos desconexos, o algoritmo retorna a Minimum Spanning Forest
     def MST(self):
+        # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
+        edges = self.get_edges()
+        
+        # Novo grafo
+        mst = Graph()
+        
+        # Inicializando variáveis do DSU e novo grafo
+        for k in self.get_vertices():
+            mst.create_vertex(k)
+            self._p[k]     = k
+            self._pSize[k] = 1
+            
+        # Agora a gente itera pelas arestas, começando pelos menores pesos e vai construindo nossa árvore
+        edges = sorted(edges)
+        for w, a, b in edges:
+            if(self._union(a, b)):
+                mst.create_edge(a, b, weight = w)
+                
+        self._p = dict()
+        self._pSize = dict()
+        
+        return mst
+    
+    # Retorna a resposta para o TSP no Grafo, começando por ini.
+    def TSP(self, ini):
         # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
         edges = self.get_edges()
         
