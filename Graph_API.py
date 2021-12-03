@@ -127,7 +127,7 @@ class Graph:
             idx_v = self._vert_id[v]
             for u in self._adj_l[idx_v]:
                 weight = self.get_weight(v, u)
-                edges.append([weight, v, u])
+                edges.append((weight, v, u))
                 
         return edges
     

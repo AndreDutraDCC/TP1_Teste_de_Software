@@ -239,16 +239,25 @@ class TestGraph(unittest.TestCase):
     #Métodos de teste da MST
     def testMSTOnUndirectedTree(self):
         self.createUndirectedTree()
-        
+        mst = self.grafo.MST()
+        self.assertEqual(set(mst.get_vertices()),{0,1,2,3,4})
+        self.assertEqual(set(mst.get_edges()),{(3,0,1), (3,1,0), (4,1,2), (4,2,1), (5,1,3), (5,3,1), (1,2,4), (1,4,2)})
 
     def testMSTOnUndirectedGraphWithCycles(self):
         self.createUndirectedGraphWithCycles()
+        mst = self.grafo.MST()
+        self.assertEqual(set(mst.get_vertices()),{0,1,2,3})
+        self.assertEqual(set(mst.get_edges()),{(4,0,1), (4,1,0), (3,1,2), (3,2,1), (7,2,3), (7,3,2)})
 
     def testMSTOnUndirectedDisconnectedGraph(self):
         self.createUndirectedDisconnectedGraph()
+        mst = self.grafo.MST()
+        self.assertEqual(set(mst.get_vertices()),{0,1,2,3,4})
+        self.assertEqual(set(mst.get_edges()),{(12,0,1), (12,1,0), (2,1,2), (2,2,1), (8,3, 4), (8,4,3)})
 
     def testRaiseExceptionIfMSTIsCalledForDirectedGraph(self):
-        pass
+        self.createDirectedTree()
+        self.assertRaises(Exception,self.grafo_d.MST)
 
     #Métodos de teste do Treefy
 
