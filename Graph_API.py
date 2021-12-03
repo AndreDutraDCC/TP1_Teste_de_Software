@@ -1,9 +1,9 @@
 import queue
 
 class Graph:
-    def __init__(self,direcionado = False):
+    def __init__(self,directed = False):
         self.n_vert = 0
-        self.direc = direcionado
+        self.direc = directed
         self._vert_id    = dict()
         self._adj_l = []
         self._weights = []
