@@ -5,12 +5,12 @@ class TestGraph(unittest.TestCase):
     def setUp(self):
         self.grafo = Graph()
 
-    #Vertex related test methods
+    #Métodos de teste relacionados a vértices
     def testCreateOneVertexWithLabel(self):
         self.assertEqual(self.grafo.create_vertex("a"),"a")
         self.assertTrue(self.grafo.has_vertex("a"))
     
-    def testCreateNamelessVertex(self):
+    def testCreateLabellessVertex(self):
         self.assertEqual(self.grafo.create_vertex(),0)
         self.assertTrue(self.grafo.has_vertex(0))
         
@@ -37,7 +37,7 @@ class TestGraph(unittest.TestCase):
         self.assertTrue(self.grafo.has_vertex(7))
         self.assertFalse(self.grafo.has_vertex(0))
     
-    #Edge related test methods
+    #Métodos de teste relacionados a arestas
     def testCreateWeightedEdge(self):
         pass
 
@@ -50,7 +50,7 @@ class TestGraph(unittest.TestCase):
     def testRaiseExceptionIfGetWeightFromNonExistentEdge(self):
         pass
 
-    #DFS test methods
+    #Métodos de teste do DFS
     def testDfsOnUndirectedTree(self):
         pass
 
@@ -72,7 +72,7 @@ class TestGraph(unittest.TestCase):
     def testDfsRaiseExceptionIfStartVertexDoesntExist(self):
         pass
 
-    #BFS test methods
+    #Métodos de teste do BFS
     def testBfsOnUndirectedTree(self):
         pass
 
@@ -94,7 +94,7 @@ class TestGraph(unittest.TestCase):
     def testBfsRaiseExceptionIfStartVertexDoesntExist(self):
         pass
 
-    #Dijkstra test methods
+    #Métodos de teste do Dijkstra
     def testDijkstraOnUndirectedTree(self):
         pass
 
@@ -116,7 +116,7 @@ class TestGraph(unittest.TestCase):
     def testDijkstraRaiseExceptionIfStartVertexDoesntExist(self):
         pass
 
-    #MST test methods
+    #Métodos de teste da MST
     def testMSTOnUndirectedTree(self):
         pass
 
@@ -126,8 +126,71 @@ class TestGraph(unittest.TestCase):
     def testMSTOnUndirectedDisconnectedGraph(self):
         pass
 
+    def testRaiseExceptionIfMSTIsCalledForDirectedGraph(self):
+        pass
 
+    #Métodos de teste do Treefy
 
+    def testTreefyOnUndirectedTree(self):
+        pass
+
+    def testTreefyOnUndirectedGraphWithCycles(self):
+        pass
+
+    def testTreefyOnUndirectedDisconnectedGraph(self):
+        pass
+
+    def testTreefyOnDirectedTree(self):
+        pass
+
+    def testTreefyOnDirectedGraphWithCycles(self):
+        pass
+
+    def testTreefyOnDirectedDisconnectedGraph(self):
+        pass
+
+    #def testTreefyRaiseExceptionIfStartVertexDoesntExist(self):
+    #    pass
+
+    #Métodos de teste para o algoritmo de ciclos
+
+    def testUndirectedTreeDoesntHaveCycle(self):
+        pass
+
+    def testUndirectedGraphWithCyclesHasCycle(self):
+        pass
+
+    def testUndirectedDisconnectedGraphHasCycle(self):
+        pass
+
+    def testDirectedTreeDoesntHaveCycle(self):
+        pass
+
+    def testDirectedGraphWithCyclesHasCycle(self):
+        pass
+
+    def testDirectedDisconnectedGraphHasCycles(self):
+        pass
+
+    #Métodos de teste para o algoritmo de componentes
+
+    def testUndirectedTreeHasOneComponent(self):
+        pass
+
+    def testUndirectedGraphWithCyclesHasOneComponent(self):
+        pass
+
+    def testUndirectedDisconnectedGraphHasManyComponents(self):
+        pass
+
+    def testDirectedTreeDoesntHasOneComponent(self):
+        pass
+
+    def testDirectedGraphWithCyclesHasManyComponents(self):
+        pass
+
+    def testDirectedDisconnectedGraphHasManyComponents(self):
+        pass
 
     
 

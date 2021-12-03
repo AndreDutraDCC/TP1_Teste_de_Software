@@ -38,12 +38,41 @@ class Graph:
     
     #Checa se o vértice de label u pertence ao grafo
     def has_vertex(self,u):
-        return u in self._vert_id.keys()
+        for w in self._vert_id.keys():
+            if w == u:
+                return True
+        return False
     
     #Retorna os labels de todos os vértices do grafo
     def get_vertices(self):
         return list(self._vert_id.keys())
+    
+    #Deleta o vértice u do grafo e todas as arestas adjacentes a ele
+    def del_vertex(self,u):
+        if not self.has_vertex(u):
+            return
+        
+        for v in self._adj_l[self._vert_id[u]]:
+            self.del_edge(u,v)
+        
+        if self.direc:
+            for v in self._vert_id.keys():
+                if u in self._adj_l[self._vert_id[v]]:
+                    self.del_edge(v,u)
+        
+        self._adj_l[self._vert_id[u]] = self._adj_l[-1]
+        self._adj_l.pop()
 
+        vid_keys = list(self._vert_id.keys())
+        vid_values = list(self._vert_id.values())
+        idx_of_last = vid_values.index(self.n_vert-1)
+        substit_key = vid_keys[idx_of_last]
+
+        self._vert_id[substit_key] = self._vert_id[u]
+        self._vert_id.pop(u)
+
+        self.n_vert-=1
+    
     #Cria uma aresta u→v no grafo (ou em ambas dieções se não direcionado) e de peso weight. O peso por padrão é 1
     def create_edge(self,u,v,weight = 1):
         if not self.has_vertex(u):
@@ -69,25 +98,25 @@ class Graph:
 
     #Indica se a aresta u→v pertence ao grafo
     def has_edge(self,u,v):
-        for e in self._weights:
-            if e[0] == u and e[1] == v:
+        for w in self._adj_l[self._vert_id[u]]:
+            if w == v:
                 return True
-            elif e[0] == v and e[1] == u and not self.direc:
-                return True
-        
         return False
     
     #Retorna o peso da aresta u→v se ela existir
     def get_weight(self,u,v):
+        if not self.has_edge(u,v):
+            raise Exception("Aresta não existe")
+        
         for e in self._weights:
             if e[0] == u and e[1] == v:
                 return e[2]
             elif e[0] == v and e[1] == u and not self.direc:
                 return e[2]
         
-        raise Exception("Aresta não existe")
         
-    # Retorna lista de arestas na forma [Peso, V1, V2]
+        
+    # Retorna uma lista de arestas na forma [Peso, V1, V2]
     def get_edges(self):
         edges = []
         
@@ -117,31 +146,7 @@ class Graph:
                 self._weights.remove(e)
                 return
     
-    #Deleta o vértice u do grafo e todas as arestas adjacentes a ele
-    def del_vertex(self,u):
-        if not self.has_vertex(u):
-            return
-        
-        for v in self._adj_l[self._vert_id[u]]:
-            self.del_edge(u,v)
-        
-        if self.direc:
-            for v in self._vert_id.keys():
-                if u in self._adj_l[self._vert_id[v]]:
-                    self.del_edge(v,u)
-        
-        self._adj_l[self._vert_id[u]] = self._adj_l[-1]
-        self._adj_l.pop()
-
-        vid_keys = list(self._vert_id.keys())
-        vid_values = list(self._vert_id.values())
-        idx_of_last = vid_values.index(self.n_vert-1)
-        substit_key = vid_keys[idx_of_last]
-
-        self._vert_id[substit_key] = self._vert_id[u]
-        self._vert_id.pop(u)
-
-        self.n_vert-=1
+    
     
     # --------------------- Algoritmos ----------------------------------
     
@@ -297,6 +302,9 @@ class Graph:
     # Retorna outro objeto do tipo Graph. A Minimum Spanning Tree do Grafo atual.
     # Atenção: Em casos de grafos desconexos, o algoritmo retorna a Minimum Spanning Forest
     def MST(self):
+        if self.direc:
+            raise Exception("Este algoritmo não pode ser usado em grafos direcionados.")
+
         # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
         edges = self.get_edges()
         
@@ -322,7 +330,7 @@ class Graph:
     
     # Transforma o grafo numa árvore, mantendo os vértices com o maior grau possível
     # Para grafos desconexos, retorna uma floresta
-    def treefy(self, ini):
+    def treefy(self):
         # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
         edges = self.get_edges()
         
