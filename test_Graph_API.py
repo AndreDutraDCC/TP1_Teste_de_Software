@@ -210,28 +210,36 @@ class TestGraph(unittest.TestCase):
     #Métodos de teste do Dijkstra
     def testDijkstraOnUndirectedTree(self):
         self.createUndirectedTree()
+        self.assertEqual(self.grafo.dijkstra(0), {0:0, 1:3, 2:7, 3:8, 4:8})
 
     def testDijkstraOnUndirectedGraphWithCycles(self):
         self.createUndirectedGraphWithCycles()
+        self.assertEqual(self.grafo.dijkstra(0), {0:0, 1:4, 2:5, 3:10})
 
     def testDijkstraOnUndirectedDisconnectedGraph(self):
         self.createUndirectedDisconnectedGraph()
+        self.assertEqual(self.grafo.dijkstra(0), {0:0, 1:12, 2:13, 3:float('inf'), 4:float('inf')})
 
     def testDijkstraOnDirectedTree(self):
         self.createDirectedTree()
+        self.assertEqual(self.grafo_d.dijkstra(0), {0:0, 1:3, 2:7, 3:8, 4:8})
 
     def testDijkstraOnDirectedGraphWithCycles(self):
         self.createDirectedGraphWithCycles()
+        self.assertEqual(self.grafo_d.dijkstra(0), {0:0, 1:4, 2:7, 3:10})
 
     def testDijkstraOnDirectedDisconnectedGraph(self):
         self.createDirectedDisconnectedGraph()
+        self.assertEqual(self.grafo_d.dijkstra(0), {0:0, 1:15, 2:13, 3:float('inf'), 4:float('inf')})
 
     def testDijkstraRaiseExceptionIfStartVertexDoesntExist(self):
-        pass
+        self.createUndirectedTree()
+        self.assertRaises(Exception,self.grafo.dijkstra,5)
 
     #Métodos de teste da MST
     def testMSTOnUndirectedTree(self):
         self.createUndirectedTree()
+        
 
     def testMSTOnUndirectedGraphWithCycles(self):
         self.createUndirectedGraphWithCycles()
