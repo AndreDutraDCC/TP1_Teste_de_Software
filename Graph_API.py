@@ -1,9 +1,9 @@
 import queue
 
 class Graph:
-    def __init__(self,directed = False):
+    def __init__(self,direcionado = False):
         self.n_vert = 0
-        self.direc = directed
+        self.direc = direcionado
         self._vert_id    = dict()
         self._adj_l = []
         self._weights = []
@@ -18,7 +18,10 @@ class Graph:
         
         # Auxiliar para os algoritmos de ciclo
         self._color   = dict()
-    
+        
+        # Auxiliar para o toposort
+        self._entry_degree = dict()
+        
     # ----------------------- Funções Primitivas ---------------------------
     
     #Cria um vértice no grafo de nome igual a label. Se nenhuma for fornecida, o label é o sucessor do maior int entre os labels do grafo, ou 0 se for o primeiro int
@@ -33,19 +36,94 @@ class Graph:
 
         self._adj_l+=[[]]
         self.n_vert+=1
+        self._entry_degree[label] = 0
 
         return label
     
     #Checa se o vértice de label u pertence ao grafo
     def has_vertex(self,u):
-        for w in self._vert_id.keys():
-            if w == u:
-                return True
-        return False
+        return u in self._vert_id.keys()
     
     #Retorna os labels de todos os vértices do grafo
     def get_vertices(self):
         return list(self._vert_id.keys())
+
+    #Cria uma aresta u→v no grafo (ou em ambas dieções se não direcionado) e de peso weight. O peso por padrão é 1
+    def create_edge(self,u,v,weight = 1):
+        if not self.has_vertex(u):
+            raise Exception("O vértice "+str(u)+" não está registrado no grafo")
+        if not self.has_vertex(v):
+            raise Exception("O vértice "+str(v)+" não está registrado no grafo")
+        
+        if v not in self._adj_l[self._vert_id[u]]:
+            self._adj_l[self._vert_id[u]].append(v)
+        self._entry_degree[v] += 1
+        
+        if not self.direc:
+            self._adj_l[self._vert_id[v]].append(u)
+            self._entry_degree[u] += 1
+            
+        for idx,e in enumerate(self._weights):
+            if e[0] == u and e[1] == v:
+                self._weights[idx][2] = weight
+                return
+            elif e[0] == v and e[1] == u and not self.direc:
+                self._weights[idx][2] = weight
+                return
+        
+        self._weights.append((u,v,weight))
+
+    #Indica se a aresta u→v pertence ao grafo
+    def has_edge(self,u,v):
+        for e in self._weights:
+            if e[0] == u and e[1] == v:
+                return True
+            elif e[0] == v and e[1] == u and not self.direc:
+                return True
+        
+        return False
+    
+    #Retorna o peso da aresta u→v se ela existir
+    def get_weight(self,u,v):
+        for e in self._weights:
+            if e[0] == u and e[1] == v:
+                return e[2]
+            elif e[0] == v and e[1] == u and not self.direc:
+                return e[2]
+        
+        raise Exception("Aresta não existe")
+        
+    # Retorna lista de arestas na forma [Peso, V1, V2]
+    def get_edges(self):
+        edges = []
+        
+        for v in self.get_vertices():
+            idx_v = self._vert_id[v]
+            for u in self._adj_l[idx_v]:
+                weight = self.get_weight(v, u)
+                edges.append([weight, v, u])
+                
+        return edges
+    
+    #Deleta a aresta u→v do grafo (em ambas as direções se for não direcionado)
+    def del_edge(self,u,v):
+        if not self.has_edge(u,v):
+            return
+        
+        self._adj_l[self._vert_id[u]].remove(v)
+        self._entry_degree[v] -= 1
+        
+        if not self.direc:
+            self._adj_l[self._vert_id[v]].remove(u)
+            self._entry_degree[u] -= 1
+        
+        for e in self._weights:
+            if e[0] == u and e[1] == v:
+                self._weights.remove(e)
+                return
+            elif e[0] == v and e[1] == u and not self.direc:
+                self._weights.remove(e)
+                return
     
     #Deleta o vértice u do grafo e todas as arestas adjacentes a ele
     def del_vertex(self,u):
@@ -72,84 +150,6 @@ class Graph:
         self._vert_id.pop(u)
 
         self.n_vert-=1
-    
-    #Cria uma aresta u→v no grafo (ou em ambas dieções se não direcionado) e de peso weight. O peso por padrão é 1
-    def create_edge(self,u,v,weight = 1):
-        if not self.has_vertex(u):
-            raise Exception("O vértice "+str(u)+" não está registrado no grafo")
-        if not self.has_vertex(v):
-            raise Exception("O vértice "+str(v)+" não está registrado no grafo")
-        
-        if v not in self._adj_l[self._vert_id[u]]:
-            self._adj_l[self._vert_id[u]].append(v)
-        
-        if not self.direc:
-            self._adj_l[self._vert_id[v]].append(u)
-        
-        for idx,e in enumerate(self._weights):
-            if e[0] == u and e[1] == v:
-                self._weights[idx][2] = weight
-                return
-            elif e[0] == v and e[1] == u and not self.direc:
-                self._weights[idx][2] = weight
-                return
-        
-        self._weights.append((u,v,weight))
-
-    #Indica se a aresta u→v pertence ao grafo
-    def has_edge(self,u,v):
-        if not (self.has_vertex(u) and self.has_vertex(v)):
-            return False
-        
-        for w in self._adj_l[self._vert_id[u]]:
-            if w == v:
-                return True
-        return False
-    
-    #Retorna o peso da aresta u→v se ela existir
-    def get_weight(self,u,v):
-        if not self.has_edge(u,v):
-            raise Exception("Aresta não existe")
-        
-        for e in self._weights:
-            if e[0] == u and e[1] == v:
-                return e[2]
-            elif e[0] == v and e[1] == u and not self.direc:
-                return e[2]
-        
-        
-        
-    # Retorna uma lista de arestas na forma [Peso, V1, V2]
-    def get_edges(self):
-        edges = []
-        
-        for v in self.get_vertices():
-            idx_v = self._vert_id[v]
-            for u in self._adj_l[idx_v]:
-                weight = self.get_weight(v, u)
-                edges.append([weight, v, u])
-                
-        return edges
-    
-    #Deleta a aresta u→v do grafo (em ambas as direções se for não direcionado)
-    def del_edge(self,u,v):
-        if not self.has_edge(u,v):
-            return
-        
-        self._adj_l[self._vert_id[u]].remove(v)
-
-        if not self.direc:
-            self._adj_l[self._vert_id[v]].remove(u)
-        
-        for e in self._weights:
-            if e[0] == u and e[1] == v:
-                self._weights.remove(e)
-                return
-            elif e[0] == v and e[1] == u and not self.direc:
-                self._weights.remove(e)
-                return
-    
-    
     
     # --------------------- Algoritmos ----------------------------------
     
@@ -305,9 +305,6 @@ class Graph:
     # Retorna outro objeto do tipo Graph. A Minimum Spanning Tree do Grafo atual.
     # Atenção: Em casos de grafos desconexos, o algoritmo retorna a Minimum Spanning Forest
     def MST(self):
-        if self.direc:
-            raise Exception("Este algoritmo não pode ser usado em grafos direcionados.")
-
         # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
         edges = self.get_edges()
         
@@ -360,7 +357,9 @@ class Graph:
     # 0 = Não Visitado, 1 = Visitando, 2 = Visitado
     # Parametros: Vértice a Executar, Pai do Vértice a executar
     def _dfs_color(self, v, p):
-        
+        if not self.has_vertex(v):
+            raise Exception("O vértice " + str(v) + " não está registrado no grafo.")
+            
         # Checamos se já visitamos esse vértice completamente antes
         if(self._color[v] == 2):
             return False
@@ -415,3 +414,48 @@ class Graph:
         self._reach = []
         
         return ans
+    
+    # DFS para o toposort
+    def _topodfs(self, v):
+        idx_v = self._vert_id[v]
+        
+        # Não existem ciclos no grafo
+        # então eu não preciso me preocupar com o fato de os vértices terem ou não sido visitados 
+        for u in self._adj_l[idx_v]:
+            self._topodfs(u)
+        
+        self._reach.append(v)
+        
+    
+    # Retorna uma ordenação topológica dos vértices
+    # Isso significa que, se existe uma aresta de u para v, então u vem antes de v na ordenação
+    def toposort(self):
+        if not self.direc:
+            raise Exception("Ordenação topológica só é definida para grafos direcionados!")
+            
+        if self.has_cycle():
+            raise Exception("Não é possível definir uma ordenação topológica em um grafo com ciclos.")
+        
+        # First we need to find a vertex that can be the start of our sorting
+        # That is, a vertex that doesn't receive any edge
+        ini = []
+        for k in self.get_vertices():
+            if self._entry_degree[k] == 0:
+                ini.append(k)
+                
+        if len(ini) == 0:
+            raise Exception("Não foi encontrado um vértice com grau de entrada 0")
+        
+        self._reach   = []
+        
+        # Gets the topological sort in reverse order
+        for k in ini:
+            self._topodfs(k)
+        
+        # So we reverse it again
+        answer = self._reach
+        answer.reverse()
+        
+        self._reach = []
+        
+        return answer
