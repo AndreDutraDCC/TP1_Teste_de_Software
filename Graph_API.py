@@ -489,14 +489,43 @@ class Graph:
         # basta eu ir de a pra v e então ir de v pra b
         
         for v in self.get_vertices():
-            # Todos que alcançam v
             i_reach  = self.bfs(v)
-            
-            # Todos que v alcança
             reach_me = gR.bfs(v)
             
-            # Basta checarmos se o tamanho dos vetores é igual ao número de vértices
             if(len(i_reach) == num_v and len(reach_me) == num_v):
                 return True
                
         return False
+    
+    # Retorna se um grafo é bipartido. Basicamente se tiver ciclo de tamanho
+    # ímpar é impossível mas vamos resolver com uma coloração preto e branco
+    def bipartite(self):
+        
+        ini = None
+        for k in self.get_vertices():
+            self._color[k] = -1
+            if(ini is None):
+                ini = k
+        idx_ini = self._vert_id[ini]
+        
+        q = queue.Queue()
+        q.put(ini)
+        
+        self._color[ini] = 0
+        while not q.empty():
+            v     = q.get()
+            
+            idx_v = self._vert_id[v]            
+            cur_color = self._color[v]
+            new_color = (cur_color + 1) % 2 # <- 0 vira 1 e 1 vira 0
+            
+            # Visitamos todos os filhos que não foram visitados ainda
+            for u in self._adj_l[idx_v]:
+                if self._color[u] == cur_color:
+                    return False
+                if self._color[u] == -1:
+                    q.put(u)
+                    self._color[u] = new_color
+
+        # Não encontramos conflito
+        return True
