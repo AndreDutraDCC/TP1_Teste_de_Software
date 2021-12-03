@@ -2,9 +2,87 @@ import unittest
 from Graph_API import Graph
 
 class TestGraph(unittest.TestCase):
+    #Fixture do teste
     def setUp(self):
         self.grafo = Graph()
+        self.grafo_d = Graph(directed=True)
+    
+    #Funções auxiliares, para evitar repetição de código
+    def createUndirectedTree(self):
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        
+        self.grafo.create_edge(0,1,3)
+        self.grafo.create_edge(1,3,5)
+        self.grafo.create_edge(1,2,4)
+        self.grafo.create_edge(2,4,1)
 
+    def createUndirectedGraphWithCycles(self):
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        
+        self.grafo.create_edge(0,1,4)
+        self.grafo.create_edge(0,3,10)
+        self.grafo.create_edge(1,2,3)
+        self.grafo.create_edge(2,0,5)
+        self.grafo.create_edge(2,3,7)
+
+    def createUndirectedDisconnectedGraph(self):
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        
+        self.grafo.create_edge(0,2,13)
+        self.grafo.create_edge(2,1,2)
+        self.grafo.create_edge(1,0,12)
+        self.grafo.create_edge(4,3,8)
+
+    def createDirectedTree(self):
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        
+        self.grafo_d.create_edge(0,1,3)
+        self.grafo_d.create_edge(1,3,5)
+        self.grafo_d.create_edge(1,2,4)
+        self.grafo_d.create_edge(2,4,1)
+
+    def createDirectedGraphWithCycles(self):
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        
+        self.grafo_d.create_edge(0,1,4)
+        self.grafo_d.create_edge(0,3,10)
+        self.grafo_d.create_edge(1,2,3)
+        self.grafo_d.create_edge(2,0,5)
+        self.grafo_d.create_edge(2,3,7)
+        self.grafo_d.create_edge(3,2,7)
+
+    def createDirectedDisconnectedGraph(self):
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        
+        self.grafo_d.create_edge(0,2,13)
+        self.grafo_d.create_edge(2,1,2)
+        self.grafo_d.create_edge(1,0,12)
+        self.grafo_d.create_edge(4,3,8)
+    
+    #----------------------------------- Métodos de Teste -----------------------------------------
+    
     #Métodos de teste relacionados a vértices
     def testCreateOneVertexWithLabel(self):
         self.assertEqual(self.grafo.create_vertex("a"),"a")
@@ -42,92 +120,121 @@ class TestGraph(unittest.TestCase):
         self.grafo.create_vertex()
         self.grafo.create_vertex()
         self.grafo.create_edge(0,1,2)
+        self.assertTrue(self.grafo.has_edge(0,1))
+        self.assertTrue(self.grafo.has_edge(1,0))
         self.assertEqual(self.grafo.get_weight(0,1),2)
+    
+    def testCreateDirectedWeightedEdge(self):
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_edge(0,1,2)
+        self.assertTrue(self.grafo_d.has_edge(0,1))
+        self.assertFalse(self.grafo_d.has_edge(1,0))
+        self.assertEqual(self.grafo_d.get_weight(0,1),2)
 
     def testRaiseExceptionIfCreateEdgeByNonExistentVertex(self):
-        pass
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.assertRaises(Exception,self.grafo.create_edge,1,2,5)
+        self.assertRaises(Exception,self.grafo.create_edge,3,0,10)
 
     def testCreateDeleteEdges(self):
-        pass
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+        self.grafo_d.create_vertex()
+
+        self.grafo_d.create_edge(0,1,3)
+        self.grafo_d.create_edge(1,0,5)
+        self.grafo_d.create_edge(0,2,10)
+        self.grafo_d.del_edge(0,1)
+        self.grafo_d.create_edge(0,1,2)
+        self.grafo_d.del_edge(0,2)
+        self.assertTrue(self.grafo_d.has_edge(0,1))
+        self.assertTrue(self.grafo_d.has_edge(1,0))
+        self.assertFalse(self.grafo_d.has_edge(0,2))
+        self.assertEqual(self.grafo_d.get_weight(0,1),2)        
 
     def testRaiseExceptionIfGetWeightFromNonExistentEdge(self):
-        pass
+        self.assertRaises(Exception,self.grafo.get_weight,0,1)
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.assertRaises(Exception,self.grafo.get_weight,2,0)
 
     #Métodos de teste do DFS
     def testDfsOnUndirectedTree(self):
-        pass
+        self.createUndirectedTree()
 
     def testDfsOnUndirectedGraphWithCycles(self):
-        pass
+        self.createUndirectedGraphWithCycles()
 
     def testDfsOnUndirectedDisconnectedGraph(self):
-        pass
+        self.createUndirectedDisconnectedGraph()
 
     def testDfsOnDirectedTree(self):
-        pass
+        self.createDirectedTree()
 
     def testDfsOnDirectedGraphWithCycles(self):
-        pass
+        self.createDirectedGraphWithCycles()
 
     def testDfsOnDirectedDisconnectedGraph(self):
-        pass
+        self.createDirectedDisconnectedGraph()
 
     def testDfsRaiseExceptionIfStartVertexDoesntExist(self):
         pass
 
     #Métodos de teste do BFS
     def testBfsOnUndirectedTree(self):
-        pass
+        self.createUndirectedTree()
 
     def testBfsOnUndirectedGraphWithCycles(self):
-        pass
+        self.createUndirectedGraphWithCycles()
 
     def testBfsOnUndirectedDisconnectedGraph(self):
-        pass
+        self.createUndirectedDisconnectedGraph()
 
     def testBfsOnDirectedTree(self):
-        pass
+        self.createDirectedTree()
 
     def testBfsOnDirectedGraphWithCycles(self):
-        pass
+        self.createDirectedGraphWithCycles()
 
     def testBfsOnDirectedDisconnectedGraph(self):
-        pass
+        self.createDirectedDisconnectedGraph()
 
     def testBfsRaiseExceptionIfStartVertexDoesntExist(self):
         pass
 
     #Métodos de teste do Dijkstra
     def testDijkstraOnUndirectedTree(self):
-        pass
+        self.createUndirectedTree()
 
     def testDijkstraOnUndirectedGraphWithCycles(self):
-        pass
+        self.createUndirectedGraphWithCycles()
 
     def testDijkstraOnUndirectedDisconnectedGraph(self):
-        pass
+        self.createUndirectedDisconnectedGraph()
 
     def testDijkstraOnDirectedTree(self):
-        pass
+        self.createDirectedTree()
 
     def testDijkstraOnDirectedGraphWithCycles(self):
-        pass
+        self.createDirectedGraphWithCycles()
 
     def testDijkstraOnDirectedDisconnectedGraph(self):
-        pass
+        self.createDirectedDisconnectedGraph()
 
     def testDijkstraRaiseExceptionIfStartVertexDoesntExist(self):
         pass
 
     #Métodos de teste da MST
     def testMSTOnUndirectedTree(self):
-        pass
+        self.createUndirectedTree()
 
     def testMSTOnUndirectedGraphWithCycles(self):
-        pass
+        self.createUndirectedGraphWithCycles()
 
     def testMSTOnUndirectedDisconnectedGraph(self):
-        pass
+        self.createUndirectedDisconnectedGraph()
 
     def testRaiseExceptionIfMSTIsCalledForDirectedGraph(self):
         pass
@@ -135,22 +242,22 @@ class TestGraph(unittest.TestCase):
     #Métodos de teste do Treefy
 
     def testTreefyOnUndirectedTree(self):
-        pass
+        self.createUndirectedTree()
 
     def testTreefyOnUndirectedGraphWithCycles(self):
-        pass
+        self.createUndirectedGraphWithCycles()
 
     def testTreefyOnUndirectedDisconnectedGraph(self):
-        pass
+        self.createUndirectedDisconnectedGraph()
 
     def testTreefyOnDirectedTree(self):
-        pass
+        self.createDirectedTree()
 
     def testTreefyOnDirectedGraphWithCycles(self):
-        pass
+        self.createDirectedGraphWithCycles()
 
     def testTreefyOnDirectedDisconnectedGraph(self):
-        pass
+        self.createDirectedDisconnectedGraph()
 
     #def testTreefyRaiseExceptionIfStartVertexDoesntExist(self):
     #    pass
@@ -158,42 +265,42 @@ class TestGraph(unittest.TestCase):
     #Métodos de teste para o algoritmo de ciclos
 
     def testUndirectedTreeDoesntHaveCycle(self):
-        pass
+        self.createUndirectedTree()
 
     def testUndirectedGraphWithCyclesHasCycle(self):
-        pass
+        self.createUndirectedGraphWithCycles()
 
     def testUndirectedDisconnectedGraphHasCycle(self):
-        pass
+        self.createUndirectedDisconnectedGraph()
 
     def testDirectedTreeDoesntHaveCycle(self):
-        pass
+        self.createDirectedTree()
 
     def testDirectedGraphWithCyclesHasCycle(self):
-        pass
+        self.createDirectedGraphWithCycles()
 
     def testDirectedDisconnectedGraphHasCycles(self):
-        pass
+        self.createDirectedDisconnectedGraph()
 
     #Métodos de teste para o algoritmo de componentes
 
     def testUndirectedTreeHasOneComponent(self):
-        pass
+        self.createUndirectedTree()
 
     def testUndirectedGraphWithCyclesHasOneComponent(self):
-        pass
+        self.createUndirectedGraphWithCycles()
 
-    def testUndirectedDisconnectedGraphHasManyComponents(self):
-        pass
+    def testUndirectedDisconnectedGraphHasTwoComponents(self):
+        self.createUndirectedDisconnectedGraph()
 
-    def testDirectedTreeDoesntHasOneComponent(self):
-        pass
+    def testDirectedTreeDoesntHasFiveComponents(self):
+        self.createDirectedTree()
 
-    def testDirectedGraphWithCyclesHasManyComponents(self):
-        pass
+    def testDirectedGraphWithCyclesHasOneComponent(self):
+        self.createDirectedGraphWithCycles()
 
-    def testDirectedDisconnectedGraphHasManyComponents(self):
-        pass
+    def testDirectedDisconnectedGraphHasThreeComponents(self):
+        self.createDirectedDisconnectedGraph()
 
     
 

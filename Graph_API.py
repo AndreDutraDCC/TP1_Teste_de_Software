@@ -1,9 +1,9 @@
 import queue
 
 class Graph:
-    def __init__(self,direcionado = False):
+    def __init__(self,directed = False):
         self.n_vert = 0
-        self.direc = direcionado
+        self.direc = directed
         self._vert_id    = dict()
         self._adj_l = []
         self._weights = []
@@ -98,6 +98,9 @@ class Graph:
 
     #Indica se a aresta u→v pertence ao grafo
     def has_edge(self,u,v):
+        if not (self.has_vertex(u) and self.has_vertex(v)):
+            return False
+        
         for w in self._adj_l[self._vert_id[u]]:
             if w == v:
                 return True
