@@ -135,6 +135,7 @@ class TestGraph(unittest.TestCase):
     def testRaiseExceptionIfCreateEdgeByNonExistentVertex(self):
         self.grafo.create_vertex()
         self.grafo.create_vertex()
+
         self.assertRaises(Exception,self.grafo.create_edge,1,2,5)
         self.assertRaises(Exception,self.grafo.create_edge,3,0,10)
 
@@ -149,6 +150,7 @@ class TestGraph(unittest.TestCase):
         self.grafo_d.del_edge(0,1)
         self.grafo_d.create_edge(0,1,2)
         self.grafo_d.del_edge(0,2)
+
         self.assertTrue(self.grafo_d.has_edge(0,1))
         self.assertTrue(self.grafo_d.has_edge(1,0))
         self.assertFalse(self.grafo_d.has_edge(0,2))
@@ -158,7 +160,8 @@ class TestGraph(unittest.TestCase):
         self.assertRaises(Exception,self.grafo.get_weight,0,1)
         self.grafo.create_vertex()
         self.grafo.create_vertex()
-        self.assertRaises(Exception,self.grafo.get_weight,2,0)
+        self.assertRaises(Exception,self.grafo.get_weight,0,1)
+
 
     #Métodos de teste do DFS
     def testDfsOnUndirectedTree(self):
