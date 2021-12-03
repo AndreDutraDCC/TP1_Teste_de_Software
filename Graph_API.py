@@ -303,8 +303,11 @@ class Graph:
     # -------------------------- Fim do Disjoint Set Union --------------------------------------
     
     # Retorna outro objeto do tipo Graph. A Minimum Spanning Tree do Grafo atual.
-    # Atenção: Em casos de grafos desconexos, o algoritmo retorna a Minimum Spanning Forest
+    # Atenção: Em casos de grafos desconexos, o algoritmo retorna a Minimum Spanning Forest. O grafo deve ser não direcionado.
     def MST(self):
+        if self.direc:
+            raise Exception("O algoritmo deve ser usado somente em grafos não direcionados.")
+
         # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
         edges = self.get_edges()
         
