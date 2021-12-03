@@ -436,8 +436,8 @@ class Graph:
         if self.has_cycle():
             raise Exception("Não é possível definir uma ordenação topológica em um grafo com ciclos.")
         
-        # First we need to find a vertex that can be the start of our sorting
-        # That is, a vertex that doesn't receive any edge
+        # Primeiro a gente precisa encontrar um vértice com grau de entrada 0
+        # i.e. um vértice que possa ser o início da nossa ordenação topológica
         ini = []
         for k in self.get_vertices():
             if self._entry_degree[k] == 0:
@@ -448,11 +448,11 @@ class Graph:
         
         self._reach   = []
         
-        # Gets the topological sort in reverse order
+        # Obtemos a ordenação topológica inversa
         for k in ini:
             self._topodfs(k)
         
-        # So we reverse it again
+        # E invertemos ela de volta
         answer = self._reach
         answer.reverse()
         
