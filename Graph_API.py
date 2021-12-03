@@ -4,11 +4,17 @@ class Graph:
     def __init__(self,direcionado = False):
         self.n_vert = 0
         self.direc = direcionado
-        self._vert_id = dict()
+        self._vert_id    = dict()
         self._adj_l = []
         self._weights = []
+        
+        # Auxiliares para os algoritmos de visitação
         self._visited = []
         self._reach   = []
+        
+        # Auxiliar para o Disjoint Set Union
+        self._p       = dict()
+        self._pSize   = dict()
         
     #Cria um vértice no grafo de nome igual a label. Se nenhuma for fornecida, o label é o sucessor do maior int entre os labels do grafo, ou 0 se for o primeiro int
     def create_vertex(self,label = ""):
@@ -72,9 +78,21 @@ class Graph:
             if e[0] == u and e[1] == v:
                 return e[2]
             elif e[0] == v and e[1] == u and not self.direc:
-                return e[3]
+                return e[2]
         
         raise Exception("Aresta não existe")
+        
+    # Retorna lista de arestas na forma [Peso, V1, V2]
+    def get_edges(self):
+        edges = []
+        
+        for v in self.get_vertices():
+            idx_v = self._vert_id[v]
+            for u in self._adj_l[idx_v]:
+                weight = self.get_weight(v, u)
+                edges.append([weight, v, u])
+                
+        return edges
     
     #Deleta a aresta u→v do grafo (em ambas as direções se for não direcionado)
     def del_edge(self,u,v):
@@ -176,3 +194,70 @@ class Graph:
         self._reach = []
         
         return ret
+    
+    
+    # -------------------------- Início de um Disjoint Set Union --------------------------------
+    
+    # Find com Path Compression
+    # Sozinho possui complexidade O(nlogn) amortizado.
+    def _find(self, x):
+        if(self._p[x] == x):
+            return x
+        else:
+            self._p[x] = self._find(self._p[x])
+            return self._p[x]
+    
+    # Une dois componentes conexos com Small to Large
+    # Sozinho possui complexidade O(nlogn) amortizado.
+    def _union(self, x, y):
+        # X = Cabeça do componente de X
+        # Y = Cabeça do componente de Y
+        x = self._find(x)
+        y = self._find(y)
+        
+        if(x == y):
+            return False
+        
+        # Garantindo que x é o componente maior
+        if self._pSize[x] < self._pSize[y]:
+            aux = y
+            y   = x
+            x   = aux
+        
+        # Pai de Y passa a ser X
+        self._p[y]  =  x
+        self._pSize[x] += self._pSize[y]
+        
+        return True
+    
+    # A união das duas técnicas possui complexidade igual à Inversa da Função de Ackermann.
+    # No caso dessa classe, a constante fica alta por causa do hash do Dict. 
+    # Mas em um caso sem labels, seria praticamente O(1).
+    
+    # -------------------------- Fim do Disjoint Set Union --------------------------------------
+    
+    # Retorna outro objeto do tipo Graph. A Minimum Spanning Tree do Grafo atual.
+    # Atenção: Em casos de grafos desconexos, o algoritmo retorna a Minimum Spanning Forest
+    def MST(self):
+        # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
+        edges = self.get_edges()
+        
+        # Novo grafo
+        mst = Graph()
+        
+        # Inicializando variáveis do DSU e novo grafo
+        for k in self.get_vertices():
+            mst.create_vertex(k)
+            self._p[k]     = k
+            self._pSize[k] = 1
+            
+        # Agora a gente itera pelas arestas, começando pelos menores pesos e vai construindo nossa árvore
+        edges = sorted(edges)
+        for w, a, b in edges:
+            if(self._union(a, b)):
+                mst.create_edge(a, b, weight = w)
+                
+        self._p = dict()
+        self._pSize = dict()
+        
+        return mst
