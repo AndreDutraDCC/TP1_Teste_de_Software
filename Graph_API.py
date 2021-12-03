@@ -195,6 +195,38 @@ class Graph:
         
         return ret
     
+    # Retorna um dicionário com a menor distância de ini até os outros vértices
+    def dijkstra(self, ini):
+        if not self.has_vertex(ini):
+            raise Exception("O vértice "+str(ini)+" não está registrado no grafo")
+
+        idx_ini                = self._vert_id[ini]
+        self._visited          = [False for i in range(self.n_vert)]
+        self._visited[idx_ini] = True
+        
+        distance = dict()
+        for k in self.get_vertices():
+            distance[k] = float("inf")
+        
+        q = queue.PriorityQueue()
+        q.put([0, ini])
+        distance[ini] = 0
+        
+        while not q.empty():
+            dist, v  = q.get()
+            
+            if dist > distance[v]:
+                continue
+                
+            idx_v    = self._vert_id[v]
+            for u in self._adj_l[idx_v]:
+                idx_u = self._vert_id[u]
+                w     = self.get_weight(v, u)
+                if distance[u] > distance[v] + w:
+                    distance[u] = distance[v] + w
+                    q.put([distance[u], u])        
+        
+        return distance
     
     # -------------------------- Início de um Disjoint Set Union --------------------------------
     
