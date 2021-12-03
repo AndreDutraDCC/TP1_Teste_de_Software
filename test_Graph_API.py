@@ -263,24 +263,39 @@ class TestGraph(unittest.TestCase):
 
     def testTreefyOnUndirectedTree(self):
         self.createUndirectedTree()
+        max_tree = self.grafo.treefy()
+        self.assertEqual(set(max_tree.get_vertices()),{0,1,2,3,4})
+        self.assertEqual(set(max_tree.get_edges()), {(3,0,1), (3,1,0), (4,1,2), (4,2,1), (5,1,3), (5,3,1), (1,2,4), (1,4,2)})
 
     def testTreefyOnUndirectedGraphWithCycles(self):
         self.createUndirectedGraphWithCycles()
+        max_tree = self.grafo.treefy()
+        self.assertEqual(set(max_tree.get_vertices()),{0,1,2,3})
+        self.assertEqual(set(max_tree.get_edges()),{(4,0,1), (4,1,0), (5,0,2), (5,2,0), (10,0,3), (10,3,0)})
 
     def testTreefyOnUndirectedDisconnectedGraph(self):
         self.createUndirectedDisconnectedGraph()
+        max_tree = self.grafo.treefy()
+        self.assertEqual(set(max_tree.get_vertices()), {0,1,2,3,4})
+        self.assertEqual(set(max_tree.get_edges()), {(12,0,1), (12,1,0), (13,0,2), (13,2,0), (8,3,4), (8,4,3)})
 
     def testTreefyOnDirectedTree(self):
         self.createDirectedTree()
+        max_tree = self.grafo_d.treefy()
+        self.assertEqual(set(max_tree.get_vertices()), {0,1,2,3,4})
+        self.assertEqual(set(max_tree.get_edges()), {(3,0,1), (5,1,3), (4,1,2), (1,2,4)})
 
     def testTreefyOnDirectedGraphWithCycles(self):
         self.createDirectedGraphWithCycles()
+        max_tree = self.grafo_d.treefy()
+        self.assertEqual(set(max_tree.get_vertices()),{0,1,2,3})
+        self.assertEqual(set(max_tree.get_edges()),{(4,0,1), (10,0,3), (3,1,2)})
 
     def testTreefyOnDirectedDisconnectedGraph(self):
         self.createDirectedDisconnectedGraph()
-
-    #def testTreefyRaiseExceptionIfStartVertexDoesntExist(self):
-    #    pass
+        max_tree = self.grafo_d.treefy()
+        self.assertEqual(set(max_tree.get_vertices()),{0,1,2,3,4})
+        self.assertEqual(set(max_tree.get_edges()),{(13,0,2), (12,1,0), (8,4,3)})
 
     #Métodos de teste para o algoritmo de ciclos
 

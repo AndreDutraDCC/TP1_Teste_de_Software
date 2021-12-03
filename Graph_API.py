@@ -338,7 +338,7 @@ class Graph:
         edges = self.get_edges()
         
         # Novo grafo
-        tree = Graph()
+        tree = Graph() if not self.direc else Graph(directed = True)
         
         # Inicializando variáveis do DSU e novo grafo
         for k in self.get_vertices():
