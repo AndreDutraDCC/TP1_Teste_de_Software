@@ -12,4 +12,7 @@ O sistema consiste em apenas uma classe chamada Graph, com diversos métodos rep
 - Encontrar a menor distância de um vértice para todos os vértices que ele consegue atingir - Algoritmo de Dijkstra O(E log V))
 - Estrutura para manter componentes conexos - Disjoint Set Union O(Inversa de Ackermann)
 - Árvore Geradora Mínima - Algoritmo de Kruskal O(V log V)
+- Ordenação Topológica - O(V)
+- Descobrir se é fortemente conexo - V Kosarajus O(V^2)
+- Descobrir se é bipartido - Algoritmo de Coloração O(V)
 
