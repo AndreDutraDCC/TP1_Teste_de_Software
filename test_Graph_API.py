@@ -50,10 +50,16 @@ class TestGraph(unittest.TestCase):
         self.assertRaises(Exception,self.grafo.create_edge,1,2)
 
     def testCreateDeleteEdges(self):
-        pass
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_edge(0,1)
+        self.grafo.del_edge(0,1)
+        self.assertFalse(self.grafo.has_edge(0,1))
 
     def testRaiseExceptionIfGetWeightFromNonExistentEdge(self):
-        pass
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.assertRaises(Exception,self.grafo.get_weight,0,1)
 
     #Métodos de teste do DFS
     def testDfsOnUndirectedTree(self):
