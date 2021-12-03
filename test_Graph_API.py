@@ -4,7 +4,8 @@ from Graph_API import Graph
 class TestGraph(unittest.TestCase):
     def setUp(self):
         self.grafo = Graph()
-    
+
+    #Vertex related test methods
     def testCreateOneVertexWithLabel(self):
         self.assertEqual(self.grafo.create_vertex("a"),"a")
         self.assertTrue(self.grafo.has_vertex("a"))
@@ -36,7 +37,103 @@ class TestGraph(unittest.TestCase):
         self.assertTrue(self.grafo.has_vertex(7))
         self.assertFalse(self.grafo.has_vertex(0))
     
+    #Edge related test methods
+    def testCreateWeightedEdge(self):
+        pass
+
+    def testRaiseExceptionIfCreateEdgeByNonExistentVertex(self):
+        pass
+
+    def testCreateDeleteEdges(self):
+        pass
+
+    def testRaiseExceptionIfGetWeightFromNonExistentEdge(self):
+        pass
+
+    #DFS test methods
+    def testDfsOnUndirectedTree(self):
+        pass
+
+    def testDfsOnUndirectedGraphWithCycles(self):
+        pass
+
+    def testDfsOnUndirectedDisconnectedGraph(self):
+        pass
+
+    def testDfsOnDirectedTree(self):
+        pass
+
+    def testDfsOnDirectedGraphWithCycles(self):
+        pass
+
+    def testDfsOnDirectedDisconnectedGraph(self):
+        pass
+
+    def testDfsRaiseExceptionIfStartVertexDoesntExist(self):
+        pass
+
+    #BFS test methods
+    def testBfsOnUndirectedTree(self):
+        pass
+
+    def testBfsOnUndirectedGraphWithCycles(self):
+        pass
+
+    def testBfsOnUndirectedDisconnectedGraph(self):
+        pass
+
+    def testBfsOnDirectedTree(self):
+        pass
+
+    def testBfsOnDirectedGraphWithCycles(self):
+        pass
+
+    def testBfsOnDirectedDisconnectedGraph(self):
+        pass
+
+    def testBfsRaiseExceptionIfStartVertexDoesntExist(self):
+        pass
+
+    #Dijkstra test methods
+    def testDijkstraOnUndirectedTree(self):
+        pass
+
+    def testDijkstraOnUndirectedGraphWithCycles(self):
+        pass
+
+    def testDijkstraOnUndirectedDisconnectedGraph(self):
+        pass
+
+    def testDijkstraOnDirectedTree(self):
+        pass
+
+    def testDijkstraOnDirectedGraphWithCycles(self):
+        pass
+
+    def testDijkstraOnDirectedDisconnectedGraph(self):
+        pass
+
+    def testDijkstraRaiseExceptionIfStartVertexDoesntExist(self):
+        pass
+
+    #MST test methods
+    def testMSTOnUndirectedTree(self):
+        pass
+
+    def testMSTOnUndirectedGraphWithCycles(self):
+        pass
+
+    def testMSTOnUndirectedDisconnectedGraph(self):
+        pass
+
+
+
+
     
+
+
+    
+
         
 
 

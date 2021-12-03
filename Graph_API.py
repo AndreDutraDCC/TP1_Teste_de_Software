@@ -62,7 +62,7 @@ class Graph:
         
         self._weights.append((u,v,weight))
 
-    
+    #Indica se a aresta u→v pertence ao grafo
     def has_edge(self,u,v):
         for e in self._weights:
             if e[0] == u and e[1] == v:
