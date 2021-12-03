@@ -322,7 +322,7 @@ class Graph:
     
     # Transforma o grafo numa árvore, mantendo os vértices com o maior grau possível
     # Para grafos desconexos, retorna uma floresta
-    def Treefy(self, ini):
+    def treefy(self, ini):
         # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
         edges = self.get_edges()
         
