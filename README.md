@@ -3,7 +3,7 @@
 ## Integrantes
 
 * André Luiz Moreira Dutra - 2019006345
-* João Antônio - 
+* João Antônio Oliveira Pedrosa - 2019006752
 * Átila - 
 
 
