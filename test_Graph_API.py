@@ -165,47 +165,118 @@ class TestGraph(unittest.TestCase):
 
     #Métodos de teste do DFS
     def testDfsOnUndirectedTree(self):
-        self.createUndirectedTree()
+        for x in range(9):
+            self.grafo.create_vertex()
+        self.grafo.create_edge(0,1)
+        self.grafo.create_edge(0,2)
+        self.grafo.create_edge(1,3)
+        self.grafo.create_edge(3,6)
+        self.grafo.create_edge(3,7)
+        self.grafo.create_edge(6,8)
+        self.grafo.create_edge(2,4)
+        self.grafo.create_edge(2,5)
+        self.assertEqual(self.grafo.dfs(0),[8, 6, 7, 3, 1, 4, 5, 2, 0])
 
     def testDfsOnUndirectedGraphWithCycles(self):
-        self.createUndirectedGraphWithCycles()
+        for x in range(9):
+            self.grafo.create_vertex()
+        self.grafo.create_edge(0,1)
+        self.grafo.create_edge(1,2)
+        self.grafo.create_edge(1,5)
+        self.grafo.create_edge(2,3)
+        self.grafo.create_edge(2,4)
+        self.grafo.create_edge(3,4)
+        self.grafo.create_edge(5,6)
+        self.grafo.create_edge(5,7)
+        self.grafo.create_edge(6,8)
+        self.grafo.create_edge(7,8)
+        self.assertEqual(self.grafo.dfs(0),[4, 3, 2, 7, 8, 6, 5, 1, 0])
 
     def testDfsOnUndirectedDisconnectedGraph(self):
-        self.createUndirectedDisconnectedGraph()
+        for x in range(6):
+            self.grafo.create_vertex()
+        self.grafo.create_edge(0,1)
+        self.grafo.create_edge(1,2)
+        self.grafo.create_edge(3,4)
+        self.grafo.create_edge(3,5)
+        self.assertEqual(self.grafo.dfs(3),[4, 5, 3])
 
     def testDfsOnDirectedTree(self):
-        self.createDirectedTree()
+        graph = Graph(directed = True)
+        for x in range(8):
+            graph.create_vertex()
+        graph.create_edge(0,1)
+        graph.create_edge(1,2)
+        graph.create_edge(2,3)
+        graph.create_edge(2,5)
+        graph.create_edge(3,4)
+        graph.create_edge(5,6)
+        graph.create_edge(6,7)
+        self.assertEqual(graph.dfs(0),[4, 3, 7, 6, 5, 2, 1, 0])
 
     def testDfsOnDirectedGraphWithCycles(self):
-        self.createDirectedGraphWithCycles()
+        graph = Graph(directed = True)
+        for x in range(8):
+            graph.create_vertex()
+        graph.create_edge(7,0)
+        graph.create_edge(0,1)
+        graph.create_edge(0,5)
+        graph.create_edge(1,4)
+        graph.create_edge(4,2)
+        graph.create_edge(2,3)
+        graph.create_edge(3,6)
+        graph.create_edge(6,1)
+        self.assertEqual(graph.dfs(0),[6, 3, 2, 4, 1, 5, 0])
 
     def testDfsOnDirectedDisconnectedGraph(self):
-        self.createDirectedDisconnectedGraph()
+        graph = Graph(directed = True)
+        for x in range(6):
+            graph.create_vertex()
+        graph.create_edge(0,1)
+        graph.create_edge(1,2)
+        graph.create_edge(3,4)
+        graph.create_edge(4,5)
+        self.assertEqual(graph.dfs(3),[5, 4, 3])
 
     def testDfsRaiseExceptionIfStartVertexDoesntExist(self):
-        pass
+        for x in range(3):
+            self.grafo.create_vertex(x+1)
+        self.grafo.create_edge(1,2)
+        self.grafo.create_edge(2,3)
+        self.assertRaises(Exception,self.grafo.dfs,0)
 
     #Métodos de teste do BFS
     def testBfsOnUndirectedTree(self):
         self.createUndirectedTree()
+        self.assertEqual(self.grafo.bfs(0),[0, 1, 3, 2, 4])
 
     def testBfsOnUndirectedGraphWithCycles(self):
         self.createUndirectedGraphWithCycles()
+        self.assertEqual(self.grafo.bfs(1),[1, 0, 2, 3])
 
     def testBfsOnUndirectedDisconnectedGraph(self):
         self.createUndirectedDisconnectedGraph()
+        self.assertEqual(self.grafo.bfs(0),[0, 2, 1])
 
     def testBfsOnDirectedTree(self):
         self.createDirectedTree()
+        self.assertEqual(self.grafo_d.bfs(1),[1, 3, 2, 4])
+
 
     def testBfsOnDirectedGraphWithCycles(self):
         self.createDirectedGraphWithCycles()
+        self.assertEqual(self.grafo_d.bfs(0),[0, 1, 3, 2])
 
     def testBfsOnDirectedDisconnectedGraph(self):
         self.createDirectedDisconnectedGraph()
+        self.assertEqual(self.grafo_d.bfs(2),[2, 1, 0])
 
     def testBfsRaiseExceptionIfStartVertexDoesntExist(self):
-        pass
+        for x in range(3):
+            self.grafo.create_vertex(x+1)
+        self.grafo.create_edge(1,2)
+        self.grafo.create_edge(2,3)
+        self.assertRaises(Exception,self.grafo.dfs,0)
 
     #Métodos de teste do Dijkstra
     def testDijkstraOnUndirectedTree(self):
@@ -301,32 +372,41 @@ class TestGraph(unittest.TestCase):
 
     def testUndirectedTreeDoesntHaveCycle(self):
         self.createUndirectedTree()
+        self.assertFalse(self.grafo.has_cycle())
 
     def testUndirectedGraphWithCyclesHasCycle(self):
         self.createUndirectedGraphWithCycles()
+        self.assertTrue(self.grafo.has_cycle())
 
     def testUndirectedDisconnectedGraphHasCycle(self):
         self.createUndirectedDisconnectedGraph()
+        self.assertTrue(self.grafo.has_cycle())
 
     def testDirectedTreeDoesntHaveCycle(self):
         self.createDirectedTree()
+        self.assertFalse(self.grafo_d.has_cycle())
 
     def testDirectedGraphWithCyclesHasCycle(self):
         self.createDirectedGraphWithCycles()
+        self.assertTrue(self.grafo_d.has_cycle())
 
     def testDirectedDisconnectedGraphHasCycles(self):
         self.createDirectedDisconnectedGraph()
+        self.assertTrue(self.grafo_d.has_cycle())
 
     #Métodos de teste para o algoritmo de componentes conectados
 
     def testUndirectedTreeHasOneComponent(self):
         self.createUndirectedTree()
+        self.assertEqual(self.grafo.components(),1)
 
     def testUndirectedGraphWithCyclesHasOneComponent(self):
         self.createUndirectedGraphWithCycles()
+        self.assertEqual(self.grafo.components(),1)
 
     def testUndirectedDisconnectedGraphHasTwoComponents(self):
         self.createUndirectedDisconnectedGraph()
+        self.assertEqual(self.grafo.components(),2)
 
     #Métodos de teste para o algoritmo de ordenação topologica
 

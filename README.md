@@ -4,7 +4,7 @@
 
 * André Luiz Moreira Dutra - 2019006345
 * João Antônio Oliveira Pedrosa - 2019006752
-* Átila - 
+* Átila Augusto Carvalho -  2019006442
 
 
 ## O Sistema
