@@ -459,3 +459,44 @@ class Graph:
         self._reach = []
         
         return answer
+    
+    # Diz se o grafo é fortemente conexo.
+    # Ser fortemente conexo só é definido para grafos direcionados e diz se, a partir de um vértice, é possível chegar em todos os demais
+    def strongly_connected(self):
+        if not self.direc:
+            raise Exception("Conexão forte só é definida para grafos direcionados!")
+        
+        num_v = 0
+        
+        # Iremos definir o grafo reverso de G
+        gR = Graph(direcionado = True)
+        
+        for v in self.get_vertices():
+            gR.create_vertex(v)
+            num_v += 1
+            
+        # Revertendo as arestas
+        for w, v, u in self.get_edges():
+            gR.create_edge(u, v, weight = w)
+        
+        # A proposta é muito simples
+        
+        # Se existe algum vértice v que todo mundo alcança
+        # e ao mesmo tempo esse vértice v alcança todo mundo
+        # então todos alcançam todos.
+        
+        # A prova é facil. Se eu quero ir de a pra b
+        # basta eu ir de a pra v e então ir de v pra b
+        
+        for v in self.get_vertices():
+            # Todos que alcançam v
+            i_reach  = self.bfs(v)
+            
+            # Todos que v alcança
+            reach_me = gR.bfs(v)
+            
+            # Basta checarmos se o tamanho dos vetores é igual ao número de vértices
+            if(len(i_reach) == num_v and len(reach_me) == num_v):
+                return True
+               
+        return False
