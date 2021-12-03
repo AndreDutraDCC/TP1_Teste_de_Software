@@ -39,7 +39,10 @@ class TestGraph(unittest.TestCase):
     
     #Edge related test methods
     def testCreateWeightedEdge(self):
-        pass
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.grafo.create_edge(0,1,2)
+        self.assertEqual(self.grafo.get_weight(0,1),2)
 
     def testRaiseExceptionIfCreateEdgeByNonExistentVertex(self):
         pass
