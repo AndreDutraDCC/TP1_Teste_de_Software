@@ -317,7 +317,7 @@ class TestGraph(unittest.TestCase):
     def testDirectedDisconnectedGraphHasCycles(self):
         self.createDirectedDisconnectedGraph()
 
-    #Métodos de teste para o algoritmo de componentes
+    #Métodos de teste para o algoritmo de componentes conectados
 
     def testUndirectedTreeHasOneComponent(self):
         self.createUndirectedTree()
@@ -328,14 +328,60 @@ class TestGraph(unittest.TestCase):
     def testUndirectedDisconnectedGraphHasTwoComponents(self):
         self.createUndirectedDisconnectedGraph()
 
-    def testDirectedTreeDoesntHasFiveComponents(self):
+    #Métodos de teste para o algoritmo de ordenação topologica
+
+    def testToposortOnDirectedTree(self):
         self.createDirectedTree()
+        self.grafo_d.del_edge(0,1)
+        self.grafo_d.create_edge(1,0,3)
+        self.assertEqual(self.grafo_d.toposort(), [1, 0, 2, 4, 3])
 
-    def testDirectedGraphWithCyclesHasOneComponent(self):
+    def testRaiseExceptionWhenGraphHasCycles(self):
         self.createDirectedGraphWithCycles()
+        self.assertRaises(Exception,self.grafo_d.toposort)
 
-    def testDirectedDisconnectedGraphHasThreeComponents(self):
-        self.createDirectedDisconnectedGraph()
+    def testRaiseExceptionWhenGraphIsUndirected(self):
+        self.createUndirectedTree()
+        self.assertRaises(Exception,self.grafo.toposort)
+
+    def testRaiseExceptionWhenGraphIsUndirectedAndHaveCycles(self):
+        self.createUndirectedGraphWithCycles()
+        self.assertRaises(Exception,self.grafo.toposort)
+
+    #Métodos de teste para o algoritmo de conexão forte
+
+    def testDirectedTreeIsntStronglyConnected(self):
+        self.createDirectedTree()
+        self.assertFalse(self.grafo_d.is_strongly_connected())
+
+    def testDirectedGraphWithCyclesIsStronglyConnected(self):
+        self.createDirectedGraphWithCycles()
+        self.assertTrue(self.grafo_d.is_strongly_connected())
+
+    def testRaiseExceptionWhenGraphIsUndirected(self):
+        self.createUndirectedGraphWithCycles()
+        self.assertRaises(Exception,self.grafo.is_strongly_connected)
+
+    #Métodos de teste para o algoritmo de bipartição
+
+    def testDirectedTreeIsBipartite(self):
+        self.createDirectedTree()
+        self.assertTrue(self.grafo_d.is_bipartite())
+
+    def testUndirectedTreeIsBipartite(self):
+        self.createUndirectedTree()
+        self.assertTrue(self.grafo.is_bipartite())
+
+    def testDirectedGraphWithCyclesIsntBipartite(self):
+        self.createDirectedGraphWithCycles()
+        self.assertFalse(self.grafo_d.is_bipartite())
+    
+    def testUndirectedDisconnectedGraph(self):
+        self.createUndirectedDisconnectedGraph()
+        self.assertFalse(self.grafo.is_bipartite())
+    
+
+
 
     
 

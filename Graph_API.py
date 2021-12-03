@@ -465,14 +465,14 @@ class Graph:
     
     # Diz se o grafo é fortemente conexo.
     # Ser fortemente conexo só é definido para grafos direcionados e diz se, a partir de um vértice, é possível chegar em todos os demais
-    def strongly_connected(self):
+    def is_strongly_connected(self):
         if not self.direc:
             raise Exception("Conexão forte só é definida para grafos direcionados!")
         
         num_v = 0
         
         # Iremos definir o grafo reverso de G
-        gR = Graph(direcionado = True)
+        gR = Graph(directed = True)
         
         for v in self.get_vertices():
             gR.create_vertex(v)
@@ -502,7 +502,7 @@ class Graph:
     
     # Retorna se um grafo é bipartido. Basicamente se tiver ciclo de tamanho
     # ímpar é impossível mas vamos resolver com uma coloração preto e branco
-    def bipartite(self):
+    def is_bipartite(self):
         
         ini = None
         for k in self.get_vertices():
