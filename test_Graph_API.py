@@ -45,7 +45,9 @@ class TestGraph(unittest.TestCase):
         self.assertEqual(self.grafo.get_weight(0,1),2)
 
     def testRaiseExceptionIfCreateEdgeByNonExistentVertex(self):
-        pass
+        self.grafo.create_vertex()
+        self.grafo.create_vertex()
+        self.assertRaises(Exception,self.grafo.create_edge,1,2)
 
     def testCreateDeleteEdges(self):
         pass
