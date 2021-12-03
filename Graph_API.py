@@ -320,30 +320,30 @@ class Graph:
         
         return mst
     
-    # Retorna a resposta para o TSP no Grafo, começando por ini.
-    def TSP(self, ini):
+    # Transforma o grafo numa árvore, mantendo os vértices com o maior grau possível
+    # Para grafos desconexos, retorna uma floresta
+    def Treefy(self, ini):
         # Inicialmente vamos criar um vetor de arestas da forma [Peso, Vertice 1, Vertice 2]
         edges = self.get_edges()
         
         # Novo grafo
-        mst = Graph()
+        tree = Graph()
         
         # Inicializando variáveis do DSU e novo grafo
         for k in self.get_vertices():
-            mst.create_vertex(k)
+            tree.create_vertex(k)
             self._p[k]     = k
             self._pSize[k] = 1
             
-        # Agora a gente itera pelas arestas, começando pelos menores pesos e vai construindo nossa árvore
-        edges = sorted(edges)
+        # Agora a gente itera pelas arestas e constrói uma árvore toda ve
         for w, a, b in edges:
             if(self._union(a, b)):
-                mst.create_edge(a, b, weight = w)
+                tree.create_edge(a, b, weight = w)
                 
         self._p = dict()
         self._pSize = dict()
         
-        return mst
+        return tree
     
     # DFS que atualiza a cor dos vértices para encontrar um ciclo
     # 0 = Não Visitado, 1 = Visitando, 2 = Visitado
