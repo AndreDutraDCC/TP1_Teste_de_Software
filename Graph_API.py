@@ -18,7 +18,9 @@ class Graph:
         
         # Auxiliar para os algoritmos de ciclo
         self._color   = dict()
-        
+    
+    # ----------------------- Funções Primitivas ---------------------------
+    
     #Cria um vértice no grafo de nome igual a label. Se nenhuma for fornecida, o label é o sucessor do maior int entre os labels do grafo, ou 0 se for o primeiro int
     def create_vertex(self,label = ""):
         if label == "":
@@ -141,8 +143,13 @@ class Graph:
 
         self.n_vert-=1
     
+    # --------------------- Algoritmos ----------------------------------
+    
     # Dfs on vertex v
     def _dfs(self, v):
+        if not self.has_vertex(v):
+            raise Exception("O vértice "+str(v)+" não está registrado no grafo")
+            
         idx_v       = self._vert_id[v]
         self._visited[v]  = True
         for u in self._adj_l[idx_v]:
@@ -156,7 +163,8 @@ class Graph:
     def dfs(self, ini):
         if not self.has_vertex(ini):
             raise Exception("O vértice "+str(ini)+" não está registrado no grafo")
-
+        
+        # Inicializando os vetores de visitação
         idx_ini = self._vert_id[ini]
         self._visited = [False for i in range(self.n_vert)]
         self._visited[idx_ini] = True
@@ -178,6 +186,7 @@ class Graph:
         self._visited      = [False for i in range(self.n_vert)]
         self._visited[idx_ini] = True
         
+        # Usamos uma fila pois numa BFS queremos uma estrutura do tipo FIFO
         q = queue.Queue()
         q.put(ini)
 
@@ -187,6 +196,7 @@ class Graph:
             self._reach.append(v)
             idx_v = self._vert_id[v]
             
+            # Visitamos todos os filhos que não foram visitados ainda
             for u in self._adj_l[idx_v]:
                 idx_u = self._vert_id[u]
                 if not self._visited[idx_u]:
@@ -203,7 +213,8 @@ class Graph:
     def dijkstra(self, ini):
         if not self.has_vertex(ini):
             raise Exception("O vértice "+str(ini)+" não está registrado no grafo")
-
+        
+        # Inicializando os vetores de visitação
         idx_ini                = self._vert_id[ini]
         self._visited          = [False for i in range(self.n_vert)]
         self._visited[idx_ini] = True
@@ -240,6 +251,9 @@ class Graph:
     # Find com Path Compression
     # Sozinho possui complexidade O(nlogn) amortizado.
     def _find(self, x):
+        if not self.has_vertex(x):
+            raise Exception("O vértice "+str(x)+" não está registrado no grafo")
+        
         if(self._p[x] == x):
             return x
         else:
@@ -249,6 +263,11 @@ class Graph:
     # Une dois componentes conexos com Small to Large
     # Sozinho possui complexidade O(nlogn) amortizado.
     def _union(self, x, y):
+        if not self.has_vertex(x):
+            raise Exception("O vértice " + str(x)+ " não está registrado no grafo")
+        if not self.has_vertex(y):
+            raise Exception("O vértice " + str(y)+ " não está registrado no grafo")
+        
         # X = Cabeça do componente de X
         # Y = Cabeça do componente de Y
         x = self._find(x)
@@ -366,3 +385,22 @@ class Graph:
         
         # Não encontramos ciclo
         return False
+    
+    # Retorna o número de componentes conexos do grafo
+    def components(self):
+        ans = 0
+        
+        # Inicializando os vetores de visitação
+        self._visited = [False for i in range(self.n_vert)]
+        
+        # Checamos para cada vértice se ele foi visitado
+        # Caso não tenha sido, acrescentamos mais um componente à resposta e rodamos uma dfs
+        for v in self.get_vertices():
+            idx_v = self._vert_id[v]
+            if not self._visited[idx_v]:
+                self._dfs(v)
+                ans += 1
+                
+        self._reach = []
+        
+        return ans
