@@ -1,3 +1,5 @@
+import queue
+
 class Graph:
     def __init__(self,direcionado = False):
         self.n_vert = 0
@@ -5,6 +7,8 @@ class Graph:
         self._vert_id = dict()
         self._adj_l = []
         self._weights = []
+        self._visited = []
+        self._reach   = []
         
     #Cria um vértice no grafo de nome igual a label. Se nenhuma for fornecida, o label é o sucessor do maior int entre os labels do grafo, ou 0 se for o primeiro int
     def create_vertex(self,label = ""):
@@ -115,9 +119,60 @@ class Graph:
         self._vert_id.pop(u)
 
         self.n_vert-=1
-        
-
-                
-
-        
     
+    # Dfs on vertex v
+    def _dfs(self, v):
+        idx_v       = self._vert_id[v]
+        self._visited[v]  = True
+        for u in self._adj_l[idx_v]:
+            idx_u = self._vert_id[u]
+            if not self._visited[idx_u]:
+                self._dfs(u)
+        
+        self._reach.append(v)
+        
+    # Retorna uma lista com todos os vértices que ini alcança, na ordem de uma DFS
+    def dfs(self, ini):
+        if not self.has_vertex(ini):
+            raise Exception("O vértice "+str(ini)+" não está registrado no grafo")
+
+        idx_ini = self._vert_id[ini]
+        self._visited = [False for i in range(self.n_vert)]
+        self._visited[idx_ini] = True
+        
+        self._reach = []
+        self._dfs(ini)
+        
+        ret = self._reach
+        self._reach = []
+        
+        return ret
+    
+    # Retorna uma lista com todos os vértices que ini alcança, na ordem de uma BFS
+    def bfs(self, ini): 
+        if not self.has_vertex(ini):
+            raise Exception("O vértice "+str(ini)+" não está registrado no grafo")
+
+        idx_ini      = self._vert_id[ini]
+        self._visited      = [False for i in range(self.n_vert)]
+        self._visited[idx_ini] = True
+        
+        q = queue.Queue()
+        q.put(ini)
+
+        self._reach = []
+        while not q.empty():
+            v     = q.get()
+            self._reach.append(v)
+            idx_v = self._vert_id[v]
+            
+            for u in self._adj_l[idx_v]:
+                idx_u = self._vert_id[u]
+                if not self._visited[idx_u]:
+                    q.put(u)
+                    self._visited[idx_u] = True
+
+        ret = self._reach
+        self._reach = []
+        
+        return ret
