@@ -1,12 +1,6 @@
 from Graph_API import Graph
 from os import system,name
 
-#def clear():
-#    if name == 'nt':
-#        system("cls")
-#    else:
-#        system("clear")
-
 class Menu:
     def __init__(self):
         self.graphs = []
@@ -17,7 +11,6 @@ class Menu:
     
     def main(self):
         print("")
-#        clear()
         while(True):
             if self.state == 0:
                 self.first_menu()
@@ -39,7 +32,6 @@ class Menu:
             
             else: return
             print("\n")
-#            clear()
             
         
     #state 0

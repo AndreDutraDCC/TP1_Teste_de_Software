@@ -1,5 +1,5 @@
 import unittest
-from os import name,remove#,system
+from os import name,remove
 import subprocess
 
 def clear():
