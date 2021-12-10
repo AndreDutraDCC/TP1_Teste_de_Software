@@ -4,11 +4,9 @@ import subprocess
 
 def clear():
     if name == 'nt':
-        #system("cls")
-        subprocess.run("cls")
+        subprocess.run("cls",shell = True)
     else:
-        #system("clear")
-        subprocess.run("clear")
+        subprocess.run("clear",shell = True)
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -80,7 +78,6 @@ class TestMenu(unittest.TestCase):
         self.input.write("2\n")
         self.inputClose()
         
-        #system("python Menu.py < input > output")
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         
@@ -94,7 +91,6 @@ class TestMenu(unittest.TestCase):
         self.input.write("1\n")
         self.inputClose()
         
-        #system("python Menu.py < input > output")
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
@@ -112,7 +108,6 @@ class TestMenu(unittest.TestCase):
         self.input.write("0\n")
         self.inputClose()
         
-        #system("python Menu.py < input > output")
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
@@ -130,7 +125,6 @@ class TestMenu(unittest.TestCase):
         self.input.write("0\n")
         self.inputClose()
         
-        #system("python Menu.py < input > output")
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
@@ -147,7 +141,6 @@ class TestMenu(unittest.TestCase):
         self.input.write("4\n")
         self.inputClose()
         
-        #system("python Menu.py < input > output")
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
