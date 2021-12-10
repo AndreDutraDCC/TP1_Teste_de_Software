@@ -1,12 +1,14 @@
 import unittest
-from os import system,remove,name
-
+from os import name,remove#,system
+import subprocess
 
 def clear():
     if name == 'nt':
-        system("cls")
+        #system("cls")
+        subprocess.run("cls")
     else:
-        system("clear")
+        #system("clear")
+        subprocess.run("clear")
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -78,7 +80,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("2\n")
         self.inputClose()
         
-        system("python Menu.py < input > output")
+        #system("python Menu.py < input > output")
+        subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         
         self.assertTrue(self.isEqualFiles(
@@ -91,7 +94,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("1\n")
         self.inputClose()
         
-        system("python Menu.py < input > output")
+        #system("python Menu.py < input > output")
+        subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test2.out",\
@@ -108,7 +112,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("0\n")
         self.inputClose()
         
-        system("python Menu.py < input > output")
+        #system("python Menu.py < input > output")
+        subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test3.out",\
@@ -125,7 +130,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("0\n")
         self.inputClose()
         
-        system("python Menu.py < input > output")
+        #system("python Menu.py < input > output")
+        subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test4.out",\
@@ -141,7 +147,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("4\n")
         self.inputClose()
         
-        system("python Menu.py < input > output")
+        #system("python Menu.py < input > output")
+        subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test5.out",\
