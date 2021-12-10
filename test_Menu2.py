@@ -1,13 +1,15 @@
 import unittest
 import os
+import filecmp
 
 class TestMenu(unittest.TestCase):
     #Fixture do teste
     def setUp(self):
-        self.input = open("input.txt", "w")
+        self.input = open("input", "w")
     
     def tearDown(self):
         os.remove("input")
+        os.remove("output")
         
     #Funções auxiliares, para evitar repetição de código
     def createDirectedGraph(self):
@@ -41,10 +43,14 @@ class TestMenu(unittest.TestCase):
     
     #----------------------------------- Métodos de Teste -----------------------------------------
     
-    #Métodos de teste relacionados a vértices
+    def testListGraphMenu(self):
+        self.createDirectedGraph()
+        self.input.write("2\n")
+        os.system("python Menu.py < input > output")
+
+        self.assertTrue(filecmp.cmp(\
+                               "expected_outputs/testListGraphMenu.out",\
+                               'output'))
     
-    #fim da classe
-
-
 if __name__ == '__main__':
     unittest.main()
