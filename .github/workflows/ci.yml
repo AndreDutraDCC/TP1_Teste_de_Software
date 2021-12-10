@@ -15,9 +15,11 @@ jobs:
       - name: Run unittests and collect coverage
         run: |
           coverage run test_Graph_API.py
-          coverage xml
+          coverage xml reports/unittest.xml
       - name: Upload unittests coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
+          files: ./reports/unittest.xml
           fail_ci_if_error: true
+          flag: unittest
         
