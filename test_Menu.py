@@ -12,7 +12,7 @@ class TestMenu(unittest.TestCase):
         
     def tearDown(self):
         os.remove("input")
-#         os.remove("output")
+        os.remove("output")
         
     def inputClose(self):
         self.input.close()
@@ -27,10 +27,6 @@ class TestMenu(unittest.TestCase):
                 if line1 == line2:  
                     break
                 else:
-                    print("AQUI O ERRO\n\n")
-                    print(line1)
-                    print(line2)
-                    print("\n\n\n")
                     return False
         
         # closing files
@@ -77,7 +73,7 @@ class TestMenu(unittest.TestCase):
         self.inputClose()
         
         os.system("python Menu.py < input > output")
-#         os.system("clear")
+        os.system("clear")
 
         self.assertTrue(self.isEqualFiles(
             "expected_outputs/test1.out",\
@@ -90,9 +86,59 @@ class TestMenu(unittest.TestCase):
         self.inputClose()
         
         os.system("python Menu.py < input > output")
-#         os.system("clear")
+        os.system("clear")
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test2.out",\
+                                    'output'))
+        
+    def testDFS(self):
+        self.createUndirectedGraph()
+        self.createVertex("1")
+        self.createVertex("1")
+        self.input.write("2\n")
+        self.input.write("1\n")
+        self.input.write("5\n")
+        self.input.write("6\n")
+        self.input.write("0\n")
+        self.inputClose()
+        
+        os.system("python Menu.py < input > output")
+        os.system("clear")
+        self.assertTrue(self.isEqualFiles(\
+                        "expected_outputs/test3.out",\
+                                    'output'))
+        
+    def testBFS(self):
+        self.createUndirectedGraph()
+        self.createVertex("1")
+        self.createVertex("1")
+        self.input.write("2\n")
+        self.input.write("1\n")
+        self.input.write("5\n")
+        self.input.write("5\n")
+        self.input.write("0\n")
+        self.inputClose()
+        
+        os.system("python Menu.py < input > output")
+        os.system("clear")
+        self.assertTrue(self.isEqualFiles(\
+                        "expected_outputs/test4.out",\
+                                    'output'))
+        
+    def testConnectedComponents(self):
+        self.createUndirectedGraph()
+        self.createVertex("1")
+        self.createVertex("1")
+        self.input.write("2\n")
+        self.input.write("1\n")
+        self.input.write("5\n")
+        self.input.write("4\n")
+        self.inputClose()
+        
+        os.system("python Menu.py < input > output")
+        os.system("clear")
+        self.assertTrue(self.isEqualFiles(\
+                        "expected_outputs/test5.out",\
                                     'output'))
         
         
