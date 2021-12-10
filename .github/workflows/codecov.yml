@@ -1,0 +1,25 @@
+name: Upload reports to codecov
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install coverage
+        run: pip install coverage
+      - name: Run unittests and collect coverage
+        run: |
+          coverage run test_Graph_API.py
+          coverage xml -o reports/unittests.xml
+      - name: Upload unittests coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: reports
+          files: ./unittests.xml
+          flags: unittests
+        
