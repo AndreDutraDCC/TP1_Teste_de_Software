@@ -5,4 +5,50 @@ Graph API
 2) Grafos Existentes
 X) Sair
 
+Opção: [H[2J[3J
+Novo Grafo
+
+1) Direcionado
+2) Não Direcionado
+V) Voltar
+
+Opção: [H[2J[3J
+Grafo 1
+
+Tipo: Direcionado
+
+Vértices:
+
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
+V) Voltar
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Graph API
+
+1) Novo Grafo
+2) Grafos Existentes
+X) Sair
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
 Opção: 

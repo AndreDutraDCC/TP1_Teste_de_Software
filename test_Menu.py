@@ -9,12 +9,36 @@ class TestMenu(unittest.TestCase):
     #Fixture do teste
     def setUp(self):
         self.input = open("input", "w")
-    
-    def tearDown(self):
-        self.input.close()
-        os.remove("input")
-        os.remove("output")
         
+    def tearDown(self):
+        os.remove("input")
+#         os.remove("output")
+        
+    def inputClose(self):
+        self.input.close()
+        
+    def isEqualFiles(self, path1, path2):
+        # reading files
+        f1 = open(path1, "r")  
+        f2 = open(path2, "r")  
+
+        for line1 in f1:
+            for line2 in f2:
+                if line1 == line2:  
+                    break
+                else:
+                    print("AQUI O ERRO\n\n")
+                    print(line1)
+                    print(line2)
+                    print("\n\n\n")
+                    return False
+        
+        # closing files
+        f1.close()                                       
+        f2.close()      
+        
+        return True
+    
     #Funções auxiliares, para evitar repetição de código
     def createDirectedGraph(self):
         self.input.write("1\n")
@@ -50,21 +74,25 @@ class TestMenu(unittest.TestCase):
     def testListGraphMenu(self):
         self.createDirectedGraph()
         self.input.write("2\n")
-        self.assertTrue(True)
+        self.inputClose()
+        
         os.system("python Menu.py < input > output")
-        os.system("clear")
+#         os.system("clear")
 
-        self.assertTrue(filecmp.cmp("expected_outputs/test1.out",\
+        self.assertTrue(self.isEqualFiles(
+            "expected_outputs/test1.out",\
                                     'output'))
         
     def testGraphOptionsMenu(self):
-        self.createDirectedGraph()
-#         self.input.write("2\n")
+        self.createUndirectedGraph()
+        self.input.write("2\n")
         self.input.write("1\n")
-        os.system("python Menu.py < input > output")
-        os.system("clear")
+        self.inputClose()
         
-        self.assertTrue(filecmp.cmp("expected_outputs/test2.out",\
+        os.system("python Menu.py < input > output")
+#         os.system("clear")
+        self.assertTrue(self.isEqualFiles(\
+                        "expected_outputs/test2.out",\
                                     'output'))
         
         
