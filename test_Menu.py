@@ -18,28 +18,14 @@ class TestMenu(unittest.TestCase):
         
     def tearDown(self):
         remove("input")
-        #remove("output")
+        remove("output")
         
     def inputClose(self):
         self.input.close()
         
     def isEqualFiles(self, path1, path2):
-        # reading files
-        f1 = open(path1, "r")  
-        f2 = open(path2, "r")  
-
-        for line1 in f1:
-            for line2 in f2:
-                if line1 == line2:  
-                    break
-                else:
-                    return False
-        
-        # closing files
-        f1.close()                                       
-        f2.close()      
-        
-        return True
+        with open(path1, "r") as f1, open(path2, "r") as f2:
+            return f1.read() == f2.read()
     
     #Funções auxiliares, para evitar repetição de código
     def createDirectedGraph(self):
@@ -82,7 +68,6 @@ class TestMenu(unittest.TestCase):
         clear()
         
         self.assertTrue(self.isEqualFiles("expected_outputs/test1.out",'output'))
-        remove("output")
         
     def testGraphOptionsMenu(self):
         self.createUndirectedGraph()
@@ -93,7 +78,6 @@ class TestMenu(unittest.TestCase):
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles("expected_outputs/test2.out",'output'))
-        remove("output")
         
     def testDFS(self):
         self.createUndirectedGraph()
@@ -109,7 +93,6 @@ class TestMenu(unittest.TestCase):
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles("expected_outputs/test3.out",'output'))
-        remove("output")
         
     def testBFS(self):
         self.createUndirectedGraph()
@@ -125,7 +108,6 @@ class TestMenu(unittest.TestCase):
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles("expected_outputs/test4.out",'output'))
-        remove("output")
         
     def testConnectedComponents(self):
         self.createUndirectedGraph()
@@ -140,7 +122,6 @@ class TestMenu(unittest.TestCase):
         subprocess.run("python Menu.py < input > output",shell = True)
         clear()
         self.assertTrue(self.isEqualFiles("expected_outputs/test5.out",'output'))
-        remove("output")
         
         
     
