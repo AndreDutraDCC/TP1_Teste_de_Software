@@ -1,5 +1,11 @@
 from Graph_API import Graph
-from os import system
+from os import system,name
+
+def clear():
+    if name == 'nt':
+        system("cls")
+    else:
+        system("clear")
 
 class Menu:
     def __init__(self):
@@ -11,7 +17,7 @@ class Menu:
     
     def main(self):
         print("")
-        system("clear")
+        clear()
         while(True):
             if self.state == 0:
                 self.first_menu()
@@ -33,7 +39,7 @@ class Menu:
             
             else: return
             print("")
-            system("clear")
+            clear()
             
         
     #state 0
