@@ -20,6 +20,4 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           directory: reports
-          files: ./unittests.xml
-          flags: unittests
         
