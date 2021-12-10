@@ -15,7 +15,7 @@ V) Voltar
 Opção: [H[2J[3J
 Grafo 1
 
-Tipo: Direcionado
+Tipo: Não direcionado
 
 Vértices:
 
@@ -49,6 +49,26 @@ Opção: [H[2J[3J
 Grafos Existentes
 
 1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Grafo 1
+
+Tipo: Não direcionado
+
+Vértices:
+
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
 V) Voltar
 
 Opção: 

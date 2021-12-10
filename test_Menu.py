@@ -77,7 +77,7 @@ class TestMenu(unittest.TestCase):
         self.inputClose()
         
         os.system("python Menu.py < input > output")
-#         os.system("clear")
+        os.system("clear")
 
         self.assertTrue(self.isEqualFiles(
             "expected_outputs/test1.out",\
@@ -90,7 +90,7 @@ class TestMenu(unittest.TestCase):
         self.inputClose()
         
         os.system("python Menu.py < input > output")
-#         os.system("clear")
+        os.system("clear")
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test2.out",\
                                     'output'))
