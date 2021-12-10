@@ -1,34 +1,73 @@
 import unittest
-import io
-import sys
-from Menu import Menu
-#import subprocess
+import os
+import filecmp
 
-#ret = subprocess.run("python3 test_Menu.py<input.txt", capture_output = True, shell = True)
-#output = ret.stdout.decode()
+import warnings
+warnings.filterwarnings("ignore")
 
-
-class testMenu(unittest.TestCase):
+class TestMenu(unittest.TestCase):
+    #Fixture do teste
     def setUp(self):
-        self.menu = Menu()
-        #output = io.StringIO()
-        #sys.stdout = output
+        self.input = open("input", "w")
+    
+    def tearDown(self):
+        pass
+#         os.remove("input")
+#         os.remove("output")
+        
+    #Funções auxiliares, para evitar repetição de código
+    def createDirectedGraph(self):
+        self.input.write("1\n")
+        self.input.write("1\n")
+        self.input.write("V\n")
+        self.input.write("V\n")
+    
+    def createUndirectedGraph(self):
+        self.input.write("1\n")
+        self.input.write("2\n")
+        self.input.write("V\n")
+        self.input.write("V\n")
+        
+    def createVertex(self, graphIndex):
+        self.input.write("2\n")
+        self.input.write(str(graphIndex)+"\n")
+        self.input.write("1\n")
+        self.input.write("\n") #<- Create vertex without name
+        self.input.write("V\n")
+        self.input.write("V\n")
+        
+    def createEdge(self, graphIndex, v1, v2):
+        self.input.write("2\n")
+        self.input.write(str(graphIndex)+"\n")
+        self.input.write("2\n")
+        self.input.write(str(v1)+"\n")
+        self.input.write(str(v2)+"\n")
+        self.input.write("V\n")
+        self.input.write("V\n")
+    
+    #----------------------------------- Métodos de Teste -----------------------------------------
+    
+    def testListGraphMenu(self):
+        self.createDirectedGraph()
+        self.input.write("2\n")
+        self.assertTrue(True)
+        os.system("python Menu.py < input > output")
+        os.system("clear")
 
-    def testState0Interface(self):
-        output = io.StringIO()
-        sys.stdout = output
-        sys.stdin = io.StringIO('X')
-        self.menu.main()
-        sys.stdout = sys.__stdout__
-        sys.stdin = sys.__stdin__
-        self.assertEqual('\nGraph API\n\n1) Novo Grafo\n2) Grafos Existentes\nX) Sair\n\nOpção: \n', output.getvalue())
-
-    #def testCreateVertex(self):
-
-
-
-
-
-
+        self.assertTrue(filecmp.cmp("expected_outputs/test1.out",\
+                                    'output'))
+        
+    def testGraphOptionsMenu(self):
+        self.createDirectedGraph()
+#         self.input.write("2\n")
+        self.input.write("1\n")
+        os.system("python Menu.py < input > output")
+        os.system("clear")
+        
+        self.assertTrue(filecmp.cmp("expected_outputs/test2.out",\
+                                    'output'))
+        
+        
+    
 if __name__ == '__main__':
     unittest.main()
