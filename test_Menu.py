@@ -24,7 +24,7 @@ class TestMenu(unittest.TestCase):
         self.input.close()
         
     def isEqualFiles(self, path1, path2):
-        with open(path1, "r") as f1, open(path2, "r") as f2:
+        with open(path1, "r", encoding="utf8") as f1, open(path2, "r") as f2:
             return f1.read() == f2.read()
     
     #Funções auxiliares, para evitar repetição de código
