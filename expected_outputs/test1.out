@@ -1,18 +1,20 @@
-[H[2J[3J
+
 Graph API
 
 1) Novo Grafo
 2) Grafos Existentes
 X) Sair
 
-Opção: [H[2J[3J
+Opção: 
+
 Novo Grafo
 
 1) Direcionado
 2) Não Direcionado
 V) Voltar
 
-Opção: [H[2J[3J
+Opção: 
+
 Grafo 1
 
 Tipo: Direcionado
@@ -32,20 +34,23 @@ Arestas:
 E) Excluir grafo
 V) Voltar
 
-Opção: [H[2J[3J
+Opção: 
+
 Grafos Existentes
 
 1) Grafo 1
 V) Voltar
 
-Opção: [H[2J[3J
+Opção: 
+
 Graph API
 
 1) Novo Grafo
 2) Grafos Existentes
 X) Sair
 
-Opção: [H[2J[3J
+Opção: 
+
 Grafos Existentes
 
 1) Grafo 1
