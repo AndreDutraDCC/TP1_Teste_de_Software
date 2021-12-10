@@ -10,33 +10,31 @@ class Menu:
         self.action = ""
     
     def main(self):
-        system('clear')
+        print("")
+        system("clear")
         while(True):
             if self.state == 0:
                 self.first_menu()
-                system("clear")
             
             elif self.state == 1:
                 self.new_graph_menu()
-                system("clear")
             
             elif self.state == 2:
                 self.graphs_menu()
-                system("clear")
             
             elif self.state == 3:
                 self.one_graph_menu()
-                system("clear")
             
             elif self.state == 4:
                 self.actions_menu()
-                system("clear")
             
             elif self.state == 5:
                 self.one_action_menu()
-                system("clear")
             
             else: return
+            print("")
+            system("clear")
+            
         
     #state 0
     def first_menu(self):
@@ -111,15 +109,17 @@ class Menu:
         print("\nArestas:\n")
         
         egs = []
+
         if not g.direc:
-            for u,v,w in g.get_edges():
-                if (u,v,w) not in egs and (v,u,w) not in egs:
-                    egs.append((u,v,w))
+            for w,u,v in g.get_edges():
+                if (w,u,v) not in egs and (w,v,u) not in egs:
+                    egs.append((w,u,v))
         else:
             egs = g.get_edges()
-
+        
+        sep = " → " if g.direc else " – "
         for w,u,v in egs:
-            print(str(u)+" → "+str(v)+": "+str(w))
+            print(str(u)+sep+str(v)+": "+str(w))
         
         print("\n1) Novo vértice")
         print("2) Nova aresta")
@@ -187,7 +187,7 @@ class Menu:
         
         elif option == "E" or option == "e":
             cert = input("Tem certeza de que deseja deletar o grafo atual? (s/n): ")
-            if cert == "S" or "s":
+            if cert == "S" or cert == "s":
                 self.graphs.pop(self.graph_id)
                 self.n_graphs -= 1
                 self.graph_id = 0
