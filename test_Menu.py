@@ -11,9 +11,9 @@ class TestMenu(unittest.TestCase):
         self.input = open("input", "w")
     
     def tearDown(self):
-        pass
-#         os.remove("input")
-#         os.remove("output")
+        self.input.close()
+        os.remove("input")
+        os.remove("output")
         
     #Funções auxiliares, para evitar repetição de código
     def createDirectedGraph(self):
