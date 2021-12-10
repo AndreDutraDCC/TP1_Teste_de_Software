@@ -9,7 +9,7 @@ class TestMenu(unittest.TestCase):
     
     def tearDown(self):
         os.remove("input")
-        os.remove("output")
+#         os.remove("output")
         
     #Funções auxiliares, para evitar repetição de código
     def createDirectedGraph(self):
@@ -48,9 +48,19 @@ class TestMenu(unittest.TestCase):
         self.input.write("2\n")
         os.system("python Menu.py < input > output")
 
-        self.assertTrue(filecmp.cmp(\
-                               "expected_outputs/testListGraphMenu.out",\
-                               'output'))
+        self.assertTrue(filecmp.cmp("expected_outputs/test1.out",\
+                                    'output'))
+        
+    def testGraphOptionsMenu(self):
+        self.createDirectedGraph()
+        self.input.write("2\n")
+        self.input.write("1\n")
+        os.system("python Menu.py < input > output")
+        
+        self.assertTrue(filecmp.cmp("expected_outputs/test2.out",\
+                                    'output'))
+        
+        
     
 if __name__ == '__main__':
     unittest.main()
