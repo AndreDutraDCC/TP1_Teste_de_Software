@@ -367,7 +367,7 @@ class TestGraph(unittest.TestCase):
         self.createDirectedGraphWithCycles()
         self.assertRaises(Exception,self.grafo_d.toposort)
 
-    def testRaiseExceptionWhenGraphIsUndirected(self):
+    def testRaiseExceptionIfGraphIsUndirected(self):
         self.createUndirectedTree()
         self.assertRaises(Exception,self.grafo.toposort)
 
