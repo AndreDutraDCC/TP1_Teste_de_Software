@@ -12,26 +12,13 @@ jobs:
           python-version: 3.8
       - name: Install coverage
         run: pip install coverage
-      - name: Run unittests and collect coverage
+      - name: Run tests and collect coverage
         run: |
-          coverage run test_Graph_API.py
-          coverage xml -o reports/unittest.xml
-      - name: Upload unit tests coverage to Codecov
+          coverage run -m unittest
+          coverage xml -o reports/test_report.xml
+      - name: Upload tests coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-          files: ./reports/unittest.xml
+          files: ./reports/test_report.xml
           fail_ci_if_error: true
-          flags: unittest
-          
-      - name: Run e2e tests and collect coverage
-        run: |
-          coverage run test_Menu.py
-          coverage xml -o reports/e2etest.xml
-          
-      - name: Upload e2e tests coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./reports/e2etest.xml
-          fail_ci_if_error: true
-          flags: e2etest
         
