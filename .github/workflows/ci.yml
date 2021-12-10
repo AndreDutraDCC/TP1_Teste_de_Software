@@ -15,7 +15,7 @@ jobs:
       - name: Run unittests and collect coverage
         run: |
           coverage run test_Graph_API.py
-          coverage xml reports/unittest.xml
+          coverage xml -o reports/unittest.xml
       - name: Upload unit tests coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
@@ -26,7 +26,7 @@ jobs:
       - name: Run e2e tests and collect coverage
         run: |
           coverage run test_Menu.py
-          coverage xml reports/e2etest.xml
+          coverage xml -o reports/e2etest.xml
           
       - name: Upload e2e tests coverage to Codecov
         uses: codecov/codecov-action@v2
