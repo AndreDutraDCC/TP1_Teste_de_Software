@@ -1,6 +1,12 @@
 import unittest
-import os
-import filecmp
+from os import system,remove,name
+
+
+def clear():
+    if name == 'nt':
+        system("cls")
+    else:
+        system("clear")
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -11,8 +17,8 @@ class TestMenu(unittest.TestCase):
         self.input = open("input", "w")
         
     def tearDown(self):
-        os.remove("input")
-        os.remove("output")
+        remove("input")
+        remove("output")
         
     def inputClose(self):
         self.input.close()
@@ -72,9 +78,9 @@ class TestMenu(unittest.TestCase):
         self.input.write("2\n")
         self.inputClose()
         
-        os.system("python Menu.py < input > output")
-        os.system("clear")
-
+        system("python Menu.py < input > output")
+        clear()
+        
         self.assertTrue(self.isEqualFiles(
             "expected_outputs/test1.out",\
                                     'output'))
@@ -85,8 +91,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("1\n")
         self.inputClose()
         
-        os.system("python Menu.py < input > output")
-        os.system("clear")
+        system("python Menu.py < input > output")
+        clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test2.out",\
                                     'output'))
@@ -102,8 +108,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("0\n")
         self.inputClose()
         
-        os.system("python Menu.py < input > output")
-        os.system("clear")
+        system("python Menu.py < input > output")
+        clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test3.out",\
                                     'output'))
@@ -119,8 +125,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("0\n")
         self.inputClose()
         
-        os.system("python Menu.py < input > output")
-        os.system("clear")
+        system("python Menu.py < input > output")
+        clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test4.out",\
                                     'output'))
@@ -135,8 +141,8 @@ class TestMenu(unittest.TestCase):
         self.input.write("4\n")
         self.inputClose()
         
-        os.system("python Menu.py < input > output")
-        os.system("clear")
+        system("python Menu.py < input > output")
+        clear()
         self.assertTrue(self.isEqualFiles(\
                         "expected_outputs/test5.out",\
                                     'output'))
