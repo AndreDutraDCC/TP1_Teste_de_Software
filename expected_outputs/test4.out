@@ -1,0 +1,218 @@
+[H[2J[3J
+Graph API
+
+1) Novo Grafo
+2) Grafos Existentes
+X) Sair
+
+Opção: [H[2J[3J
+Novo Grafo
+
+1) Direcionado
+2) Não Direcionado
+V) Voltar
+
+Opção: [H[2J[3J
+Grafo 1
+
+Tipo: Não direcionado
+
+Vértices:
+
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
+V) Voltar
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Graph API
+
+1) Novo Grafo
+2) Grafos Existentes
+X) Sair
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Grafo 1
+
+Tipo: Não direcionado
+
+Vértices:
+
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
+V) Voltar
+
+Opção: Nome do vértice (ou Enter para um vértice sem nome):[H[2J[3J
+Grafo 1
+
+Tipo: Não direcionado
+
+Vértices:
+
+0
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
+V) Voltar
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Graph API
+
+1) Novo Grafo
+2) Grafos Existentes
+X) Sair
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Grafo 1
+
+Tipo: Não direcionado
+
+Vértices:
+
+0
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
+V) Voltar
+
+Opção: Nome do vértice (ou Enter para um vértice sem nome):[H[2J[3J
+Grafo 1
+
+Tipo: Não direcionado
+
+Vértices:
+
+0
+1
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
+V) Voltar
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Graph API
+
+1) Novo Grafo
+2) Grafos Existentes
+X) Sair
+
+Opção: [H[2J[3J
+Grafos Existentes
+
+1) Grafo 1
+V) Voltar
+
+Opção: [H[2J[3J
+Grafo 1
+
+Tipo: Não direcionado
+
+Vértices:
+
+0
+1
+
+Arestas:
+
+
+1) Novo vértice
+2) Nova aresta
+3) Remover vértice
+4) Remover Aresta
+5) Algoritmos
+
+E) Excluir grafo
+V) Voltar
+
+Opção: [H[2J[3J
+Algoritmos
+
+1)É fortemente conectado?
+2) É bipartido?
+3) Possui Ciclos?
+4) Número de componentes conexos
+5) BFS
+6) DFS
+7) Ordenação topológica
+8) Caminhos mínimos
+9) Árvore Geradora Mínima
+10) Árvore de grau máximo
+V) Voltar
+
+Opção: [H[2J[3J
+BFS
+
+Vértice inicial: 0
+
+Pressione Enter para voltar
